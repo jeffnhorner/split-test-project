@@ -12,21 +12,20 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          // Creates `style` nodes from JS strings
-          "style-loader",
-          // Translates CSS into CommonJS
+          "vue-style-loader",
           "css-loader",
-          // Compiles Sass to CSS
-          "sass-loader",
           {
-            options: {
-                implementation: require("sass"),
-                sassOptions: {
-                    fiber: require("fibers"),
-                    indentedSyntax: true // optional
-                }
-            }
-          }
+              // Compiles Sass to CSS
+              loader: "sass-loader",
+              // Requires sass-loader@^8.0.0
+              options: {
+                  implementation: require('sass'),
+                  sassOptions: {
+                      fiber: require('fibers'),
+                      indentedSyntax: true // optional
+                  },
+              },
+          },
         ]
       }
     ]

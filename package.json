@@ -10,10 +10,13 @@
     "deepmerge": "^4.2.2",
     "fibers": "^4.0.2",
     "gridsome": "^0.7.0",
+    "sass": "^1.25.0",
+    "vue-style-loader": "^4.1.2",
     "vuetify": "^2.2.10"
   },
   "devDependencies": {
-    "node-sass": "^4.13.1",
+    "@mdi/font": "^4.9.95",
+    "css-loader": "^3.4.2",
     "sass-loader": "^8.0.2"
   }
 }
