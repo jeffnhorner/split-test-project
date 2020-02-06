@@ -8,8 +8,13 @@ import "@mdi/font/css/materialdesignicons.css";
 
 const options = {
     theme: {
-        dark: false,
-    }
+        themes: {
+            light: {
+                primary: '#00CDAC',
+                'secondary': '#fff'
+            },
+        },
+    },
 };
 
 export default function (Vue, { router, head, isClient, appOptions }) {
