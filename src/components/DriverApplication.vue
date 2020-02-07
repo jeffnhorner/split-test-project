@@ -16,10 +16,10 @@
             <span>
                 <v-progress-linear
                     v-model="skill"
+                    background-opacity=".1"
                     color="primary"
                     height="70"
                     reactive
-                    style="background: linear-gradient(90deg, #6af3fc 0%, #70fc81 100%)"
                 >
                     <template v-slot="{ value }">
                         <p>Split Driver Application Progres: <strong>{{ Math.ceil(value) }}%</strong></p>
@@ -172,7 +172,7 @@
                             v-bind:disabled="step === 1"
                             v-bind:text="step === 1"
                             v-bind:depressed="step > 1"
-                            v-on:click="step--"
+                            v-on:click="goBackToPreviousStep"
                             outlined
                             color="primary"
                         >
@@ -183,7 +183,7 @@
                             v-bind:disabled="step === 3"
                             depressed
                             color="primary"
-                            v-on:click="step++"
+                            v-on:click="nextFormStep"
                         >
                             Next
                         </v-btn>
@@ -220,6 +220,18 @@
                 }
             },
         },
+
+        methods: {
+            nextFormStep () {
+                this.step += 1;
+                this.skill += 100/6;
+            },
+
+            goBackToPreviousStep () {
+                this.step -= 1;
+                this.skill -= 100/6;
+            }
+        }
     }
 </script>
 
