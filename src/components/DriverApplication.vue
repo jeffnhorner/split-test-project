@@ -3,137 +3,192 @@
         <v-card
             v-bind:class="$style.applicationWrapper"
             class="mx-auto"
-            max-width="50rem"
+            max-width="60rem"
             width="100%"
-            height="37.5rem"
+            height="35rem"
         >
-            <div>
-                <v-card-title v-bind:class="[
-                        $style.title,
-                        'title font-weight-regular justify-space-between'
-                    ]"
+            <!-- <p
+                v-bind:class="$style.headline"
+                v-bind:style="'margin-bottom: 0;'"
+            >
+                Split Driver Application
+            </p> -->
+            <span>
+                <v-progress-linear
+                    v-model="skill"
+                    color="primary"
+                    height="70"
+                    reactive
+                    style="background: linear-gradient(90deg, #6af3fc 0%, #70fc81 100%)"
                 >
-                    <span>
-                        {{ currentTitle }}
-                    </span>
-                    <span v-bind:class="$style.progressStep">
-                        <p>step</p>
-                        <v-avatar
-                            color="primary"
-                            class="subheading white--text"
-                            size="28"
-                            v-text="step"
-                        />
-                        <p>of 6</p>
-                    </span>
-                </v-card-title>
+                    <template v-slot="{ value }">
+                        <p>Split Driver Application Progres: <strong>{{ Math.ceil(value) }}%</strong></p>
+                    </template>
+                </v-progress-linear>
+            </span>
 
-                <v-window v-model="step">
-                <v-window-item v-bind:value="1">
-                    <v-card-text v-bind:class="$style.stepOneTextFiledContainer">
-                        <span v-bind:class="$style.stepOneQuestionGroup">
-                            <v-text-field
-                                label="First Name"
-                                placeholder="Joe"
-                            />
-                            <v-text-field
-                                label="Last Name"
-                                placeholder="Black"
-                            />
+            <div v-bind:class="$style.questionsWrapper">
+                <div>
+                    <v-card-title v-bind:class="[
+                            $style.title,
+                            'justify-space-between'
+                        ]"
+                    >
+                        <span>
+                            {{ currentTitle }}
                         </span>
-                        <span v-bind:class="$style.stepOneQuestionGroup">
-                            <v-text-field
-                                label="Email"
-                                placeholder="joeblack@split.com"
+                        <span v-bind:class="$style.progressStep">
+                            <p>step</p>
+                            <v-avatar
+                                color="primary"
+                                class="subheading white--text"
+                                size="28"
+                                v-text="step"
                             />
-                            <v-text-field
-                                label="Phone Number"
-                                placeholder="222-333-4444"
-                            />
+                            <p>of 6</p>
                         </span>
-                        <span v-bind:class="$style.stepOneDateOfBirthWrapper">
-                            <v-menu
-                                ref="menu1"
-                                v-model="menu1"
-                                v-bind::close-on-content-click="false"
-                                transition="scale-transition"
-                                offset-y
-                                max-width="290px"
-                                min-width="290px"
-                            >
-                                <template v-slot:activator="{ on }">
-                                    <v-text-field
-                                        v-model="dateFormatted"
-                                        placeholder="MM/DD/YYYY format"
-                                        label="Date of Birth"
-                                        persistent-hint
-                                        v-on:blur="date = parseDate(dateFormatted)"
-                                        v-on="on"
-                                    />
-                                </template>
-                                <v-date-picker
-                                    v-model="date"
-                                    no-title
-                                    v-on:input="menu1 = false"
+                    </v-card-title>
+
+                    <v-window v-model="step">
+                    <v-window-item v-bind:value="1">
+                        <v-card-text v-bind:class="$style.stepContainer">
+                            <span v-bind:class="$style.questionGroup">
+                                <v-text-field
+                                    v-bind:class="$style.question"
+                                    label="name *"
                                 />
-                            </v-menu>
-                        </span>
-                    </v-card-text>
-                </v-window-item>
+                                <v-text-field
+                                    v-bind:class="$style.question"
+                                    label="last name *"
+                                />
+                            </span>
+                            <span v-bind:class="$style.questionGroup">
+                                <v-text-field
+                                    v-bind:class="$style.question"
+                                    label="email *"
+                                />
+                                <v-text-field
+                                    v-bind:class="$style.question"
+                                    label="phone number *"
+                                />
+                            </span>
+                            <span v-bind:class="$style.singleQuestionGroup">
+                                <v-dialog
+                                    ref="dialog"
+                                    v-model="modal"
+                                    v-bind:return-value.sync="date"
+                                    persistent
+                                    width="29rem"
+                                    >
+                                    <template v-slot:activator="{ on }">
+                                        <v-text-field
+                                            v-bind:class="$style.question"
+                                            v-model="date"
+                                            label="What is Your Dat of Birth? *"
+                                            readonly
+                                            v-on="on"
+                                        />
+                                    </template>
+                                    <v-date-picker
+                                        v-model="date"
+                                        landscape
+                                        scrollable
+                                        reactive
+                                    >
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            text color="primary"
+                                            v-on:click="modal = false"
+                                        >
+                                            Cancel
+                                        </v-btn>
+                                        <v-btn
+                                            text color="primary"
+                                            v-on:click="$refs.dialog.save(date)"
+                                        >
+                                            OK
+                                        </v-btn>
+                                    </v-date-picker>
+                                </v-dialog>
+                            </span>
+                        </v-card-text>
+                    </v-window-item>
 
-                <v-window-item v-bind:value="2">
-                    <v-card-text>
-                        <v-text-field
-                            label="Password"
-                            type="password"
-                        />
-                        <v-text-field
-                            label="Confirm Password"
-                            type="password"
-                        />
-                        <span class="caption grey--text text--darken-1">
-                            Please enter a password for your account
-                        </span>
-                    </v-card-text>
-                </v-window-item>
+                    <v-window-item v-bind:value="2">
+                        <v-card-text v-bind:class="$style.stepContainer">
+                            <span v-bind:class="$style.questionGroup">
+                                <v-select
+                                    v-bind:class="$style.question"
+                                    v-bind:items="['yes', 'no']"
+                                    placeholder="Are you over the age of 25? *"
+                                />
+                                <v-select
+                                    v-bind:class="$style.question"
+                                    v-bind:items="['yes', 'no']"
+                                    placeholder="Do you have a valid motorcycle(M1) license? *"
+                                />
+                            </span>
+                            <span v-bind:class="$style.questionGroup">
+                                <v-select
+                                    v-bind:class="$style.question"
+                                    v-bind:items="['yes', 'no']"
+                                    placeholder="Are you able to commute to Marina Del Rey? *"
+                                />
+                                <v-select
+                                    v-bind:class="$style.question"
+                                    v-bind:items="['no experience', 'little experience', 'some experience', 'very experienced']"
+                                    placeholder="How experienced are you with lane spliting? *"
+                                />
+                            </span>
+                            <span v-bind:class="$style.singleQuestionGroup">
+                                <v-select
+                                    v-bind:class="$style.question"
+                                    v-bind:items="['0 - 10', '10 - 20', '20 - 30', '30 - 40']"
+                                    placeholder="How many hours per week do you prefer to work? *"
+                                />
+                            </span>
+                        </v-card-text>
+                    </v-window-item>
 
-                <v-window-item v-bind:value="3">
-                    <div class="pa-4 text-center">
-                        <v-img
-                            class="mb-4"
-                            contain
-                            height="128"
-                            src="https://cdn.vuetifyjs.com/images/logos/v.svg"
-                        />
-                        <h3 class="title font-weight-light mb-2">Thanks for submitting an application!</h3>
-                        <span class="caption grey--text">
-                            Your application will be reviewed within 48 hours and someone will reach out
-                        </span>
-                    </div>
-                </v-window-item>
-                </v-window>
-            </div>
-            <div>
-                <v-card-actions>
-                    <v-btn
-                        v-bind:disabled="step === 1"
-                        v-bind:text="step === 1"
-                        v-bind:depressed="step > 1"
-                        v-on:click="step--"
-                        color="secondary"
-                    >
-                        Back
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        v-bind:disabled="step === 3"
-                        depressed
-                        color="primary"
-                        v-on:click="step++"
-                    >
-                        Next
-                    </v-btn>
-                </v-card-actions>
+                    <v-window-item v-bind:value="3">
+                        <div class="pa-4 text-center">
+                            <v-img
+                                class="mb-4"
+                                contain
+                                height="128"
+                                src="https://cdn.vuetifyjs.com/images/logos/v.svg"
+                            />
+                            <h3 class="title font-weight-light mb-2">Thanks for submitting an application!</h3>
+                            <span class="caption grey--text">
+                                Your application will be reviewed within 48 hours and someone will reach out
+                            </span>
+                        </div>
+                    </v-window-item>
+                    </v-window>
+                </div>
+                <div>
+                    <v-card-actions>
+                        <v-btn
+                            v-bind:disabled="step === 1"
+                            v-bind:text="step === 1"
+                            v-bind:depressed="step > 1"
+                            v-on:click="step--"
+                            outlined
+                            color="primary"
+                        >
+                            Back
+                        </v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            v-bind:disabled="step === 3"
+                            depressed
+                            color="primary"
+                            v-on:click="step++"
+                        >
+                            Next
+                        </v-btn>
+                    </v-card-actions>
+                </div>
             </div>
         </v-card>
         <div v-bind:class="[$style.skewedBox, $style.overlay]" />
@@ -151,50 +206,18 @@
 
         data: vm => ({
             step: 1,
-            date: new Date().toISOString().substr(0, 10),
-            dateFormatted: null,
-            menu1: false,
+            date: null,
+            modal: false,
+            skill: 0,
         }),
 
         computed: {
             currentTitle () {
                 switch (this.step) {
                     case 1: return 'Personal Information'
-                    case 2: return 'Create a password'
+                    case 2: return 'Just A Couple Questions'
                     default: return 'Account created'
                 }
-            },
-
-            computedDateFormatted () {
-                return this.formatDate(this.date);
-            },
-        },
-
-        watch: {
-            date (val) {
-                this.dateFormatted = this.formatDate(this.date)
-            },
-        },
-
-        methods: {
-            formatDate (date) {
-                if (!date) {
-                    return null
-                }
-
-                const [year, month, day] = date.split('-');
-
-                return `${month}/${day}/${year}`;
-            },
-
-            parseDate (date) {
-                if (!date) {
-                    return null;
-                }
-
-                const [month, day, year] = date.split('/');
-
-                return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
             },
         },
     }
@@ -210,13 +233,12 @@
     }
 
     .skewedBox {
-        background: url('http://splitridesv2.wpengine.com/wp-content/uploads/2019/12/getridetoday.png') no-repeat center;
+        background: url('https://takesplit.com/wp-content/uploads/2019/12/request.png') no-repeat center;
         background-size: cover;
-        background-position: 30%;
+        background-position: 50%;
         height: 85%;
         transform: skew(0deg, 5deg);
         margin-top: -11rem;
-        opacity: .9;
         position: absolute;
         width: 100%;
         z-index: -1;
@@ -246,14 +268,35 @@
         flex-direction: column;
         justify-content: space-between;
         margin-top: 7rem;
-        padding: 2rem;
+    }
+
+    .questionsWrapper {
+        padding: 0 2rem 4rem;
+    }
+
+    .headline {
+        padding: 1.5rem 3rem;
+        background: #00CDAC;
+        color: #fff;
+        font-size: 1.25rem;
     }
 
     .title {
         color: #00CDAC;
+        font-weight: 700;
+        padding: 0 1rem;
 
         > span {
             font-size: 1.75rem;
+        }
+    }
+
+    .question {
+        font-size: .9rem;
+        width: 50%;
+
+        :global(.v-label.theme--light) {
+            font-size: .9rem;
         }
     }
 
@@ -275,12 +318,13 @@
         }
     }
 
-    .stepOneTextFiledContainer {
+    .stepContainer {
         display: flex;
         flex-direction: column;
+        padding-top: 0;
     }
 
-    .stepOneQuestionGroup {
+    .questionGroup {
         display: flex;
         flex-direction: row;
 
@@ -297,9 +341,12 @@
         }
     }
 
-    .stepOneDateOfBirthWrapper {
-        width: 50%;
+    .singleQuestionGroup {
         padding-right: 1.5rem;
         margin-top: 1rem;
+
+        .question {
+            padding-right: .75rem;
+        }
     }
 </style>

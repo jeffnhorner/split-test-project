@@ -11,7 +11,7 @@ const options = {
         themes: {
             light: {
                 primary: '#00CDAC',
-                'secondary': '#fff'
+                secondary: '#fff',
             },
         },
     },
