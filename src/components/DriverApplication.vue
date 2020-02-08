@@ -1,9 +1,11 @@
 <template>
     <div v-bind:class="$style.container">
-        <g-image
-            v-bind:class="$style.logo"
-            src="https://splitridesv2.wpengine.com/wp-content/uploads/2019/12/logo-white.png"
-        />
+        <a href="http://www.takesplit.com">
+            <g-image
+                v-bind:class="$style.logo"
+                src="https://splitridesv2.wpengine.com/wp-content/uploads/2019/12/logo-white.png"
+            />
+        </a>
         <v-card
             v-bind:class="$style.applicationWrapper"
         >
@@ -185,7 +187,7 @@
                             </v-card-text>
                         </v-window-item>
                         <v-window-item v-bind:value="3">
-                            <span v-bind:class="$style.tableCaption">Select the days and times you prefer to work:</span>
+                            <span v-bind:class="$style.caption">Select the days and times you prefer to work:</span>
                             <div v-bind:class="$style.availability">
                                 <div v-bind:class="$style.timeOfday">
                                     <span>Morning</span>
@@ -196,7 +198,7 @@
                                     v-bind:class="$style.availabilityTable"
                                     v-bind:headers="days"
                                     v-bind:items="selections"
-                                    mobile-breakpoint="0"
+                                    v-bind:mobile-breakpoint="0"
                                     hide-default-footer
                                 >
                                     <template
@@ -302,6 +304,39 @@
                             </span>
                         </v-window-item>
                         <v-window-item v-bind:value="4">
+                            <div v-bind:class="$style.uploadContainer">
+                                <span v-bind:class="$style.caption">Select the days and times you prefer to work:</span>
+                                <span v-bind:class="$style.uploadContent">
+                                    <span>Drivers License [Front Picture] *</span>
+                                    <v-btn
+                                        depressed
+                                        color="primary"
+                                    >
+                                        Front Picture
+                                    </v-btn>
+                                </span>
+                                <span v-bind:class="$style.uploadContent">
+                                    <span>Drivers License [Back Picture] *</span>
+                                    <v-btn
+                                        depressed
+                                        color="primary"
+                                    >
+                                        Back Picture
+                                    </v-btn>
+                                </span>
+                                <span v-bind:class="$style.uploadContent">
+                                    <span>Drivers License [Front Picture]:</span>
+                                    <v-btn
+                                        depressed
+                                        color="primary"
+                                    >
+                                        Please upload a resume
+                                    </v-btn>
+                                </span>
+
+                            </div>
+                        </v-window-item>
+                        <v-window-item v-bind:value="5">
                             <div v-bind:class="$style.completedApplication">
                                 <g-image
                                     v-bind:class="$style.completedLogo"
@@ -339,7 +374,7 @@
                             v-if="!isMobile"
                             v-bind:class="[
                                 $style.progressBar,
-                                (step > 2 ? 'white--text' : null),
+                                (step > 3 ? 'white--text' : null),
                             ]"
                             v-model="skill"
                             background-opacity=".1"
@@ -352,7 +387,7 @@
                             </template>
                         </v-progress-linear>
                         <v-btn
-                            v-bind:disabled="step === 4"
+                            v-bind:disabled="step === 5"
                             depressed
                             color="primary"
                             v-on:click="formProgression"
@@ -465,6 +500,7 @@
                     case 1: return 'Hello, nice to meet you!'
                     case 2: return 'Just a Couple Questions...'
                     case 3: return 'Availabiliy & Experience'
+                    case 4: return 'Uploads Needed'
                 }
             },
         },
@@ -488,13 +524,13 @@
             formProgression (nextStep = true) {
                 if (nextStep) {
                     this.step += 1;
-                    this.skill += 100/3;
+                    this.skill += 100/4;
 
                     return;
                 }
 
                 this.step -= 1;
-                this.skill -= 100/3;
+                this.skill -= 100/4;
             }
         }
     }
@@ -598,7 +634,7 @@
     }
 
     .logo {
-        padding-top: 2rem;
+        margin-top: 2rem;
     }
 
     .title {
@@ -628,6 +664,38 @@
 
         @media only screen and (max-width: 567px) {
             width: 100%;
+        }
+    }
+
+    .uploadContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .caption {
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    .uploadContent {
+        display: flex;
+        justify-content: space-between;
+        max-width: 34rem;
+        margin: 1rem auto;
+        width: 100%;
+
+        > span {
+            color: rgba(0, 0, 0, .5);
+            font-size: .9rem;
+        }
+
+        @media only screen and (max-width: 567px) {
+            flex-direction: column;
+
+            > span {
+                margin-bottom: .5rem;
+            }
         }
     }
 
@@ -739,7 +807,7 @@
         }
     }
 
-    .tableCaption {
+    .caption {
         color: rgba(0, 0, 0, .5);
         display: flex;
         font-size: .9rem;
