@@ -379,7 +379,7 @@
                             striped
                         >
                             <template v-slot="{ value }">
-                                <p v-bind:class="$style.progressBarMessage">Your Application Progres: <strong>{{ Math.ceil(value) }}%</strong></p>
+                                <p v-bind:class="$style.progressBarMessage">Your Application Progress: <strong>{{ Math.ceil(value) }}%</strong></p>
                             </template>
                         </v-progress-linear>
                         <v-btn
