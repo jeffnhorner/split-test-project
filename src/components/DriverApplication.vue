@@ -112,21 +112,19 @@
                                     />
                                 </span>
                                 <span v-bind:class="$style.singleQuestionGroup">
+                                    <v-text-field
+                                        v-bind:class="$style.question"
+                                        v-model="contactForm.date"
+                                        placeholder="What is Your Dat of Birth? *"
+                                        v-on:click="dateOfBirthModalIsOpen = true"
+                                    />
                                     <v-dialog
                                         ref="dialog"
-                                        v-model="modal"
+                                        v-model="dateOfBirthModalIsOpen"
                                         v-bind:return-value.sync="contactForm.date"
                                         persistent
                                         width="29rem"
                                     >
-                                        <template v-slot:activator="{ on }">
-                                            <v-text-field
-                                                v-bind:class="$style.question"
-                                                v-model="contactForm.date"
-                                                placeholder="What is Your Dat of Birth? *"
-                                                v-on="on"
-                                            />
-                                        </template>
                                         <v-date-picker
                                             v-model="contactForm.date"
                                             v-bind:landscape="$mq !== 'xs' && $mq !== 'sm'"
@@ -265,21 +263,19 @@
                                     v-bind:items="['none', '0 - 1 years', '3 - 5 years', '5+ years']"
                                     placeholder="What's your motorcycle driving experience? *"
                                 />
+                                <v-text-field
+                                    v-bind:class="$style.question"
+                                    v-model="startDate"
+                                    placeholder="When would you be able to start driving? *"
+                                    v-on:click="startDateModalIsOpen = true"
+                                />
                                 <v-dialog
                                     ref="dialog"
-                                    v-model="modal"
+                                    v-model="startDateModalIsOpen"
                                     v-bind:return-value.sync="startDate"
                                     persistent
                                     width="29rem"
                                 >
-                                    <template v-slot:activator="{ on }">
-                                        <v-text-field
-                                            v-bind:class="$style.question"
-                                            v-model="startDate"
-                                            placeholder="When would you be able to start driving? *"
-                                            v-on="on"
-                                        />
-                                    </template>
                                     <v-date-picker
                                         v-model="startDate"
                                         v-bind:landscape="$mq !== 'xs' && $mq !== 'sm'"
@@ -417,6 +413,7 @@
             step: 1,
             modal: false,
             skill: 0,
+            dateOfBirthModalIsOpen: false,
             contactForm: {
                 fname: null,
                 lname: null,
@@ -425,6 +422,7 @@
                 date: null,
             },
             startDate: null,
+            startDateModalIsOpen: false,
             selections: [
                 {
                     Monday: false,
