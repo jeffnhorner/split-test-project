@@ -11,6 +11,7 @@
     "fibers": "^4.0.2",
     "gridsome": "^0.7.0",
     "sass": "^1.25.0",
+    "vue-mq": "^1.0.1",
     "vue-style-loader": "^4.1.2",
     "vuetify": "^2.2.10"
   },

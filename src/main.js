@@ -3,10 +3,11 @@
 
 import DefaultLayout from '~/layouts/Default.vue'
 import Vuetify from "vuetify";
+import VueMq from "vue-mq";
 import "vuetify/dist/vuetify.min.css";
 import "@mdi/font/css/materialdesignicons.css";
 
-const options = {
+const vuetifyOptions = {
     theme: {
         themes: {
             light: {
@@ -18,6 +19,16 @@ const options = {
 
 export default function (Vue, { router, head, isClient, appOptions }) {
     Vue.use(Vuetify);
+    Vue.use(VueMq, {
+        breakpoints: {
+            xs: 414,
+            sm: 567,
+            md: 768,
+            lg: 997,
+            xl: 1200,
+            xxl: Infinity,
+        }
+    });
     Vue.component('Layout', DefaultLayout);
-    appOptions.vuetify = new Vuetify(options);
+    appOptions.vuetify = new Vuetify(vuetifyOptions);
 }
