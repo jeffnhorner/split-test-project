@@ -413,6 +413,19 @@
                                 <p v-bind:class="$style.progressBarMessage">Your Application Progress: <strong>{{ Math.ceil(value) }}%</strong></p>
                             </template>
                         </v-progress-linear>
+                        <span
+                            v-show="step <= 4 && ($mq === 'xs' || $mq === 'sm')"
+                            v-bind:class="$style.progressStep"
+                        >
+                            <p>step</p>
+                            <v-avatar
+                                color="primary"
+                                class="subheading white--text"
+                                size="28"
+                                v-text="step"
+                            />
+                            <p>of 4</p>
+                        </span>
                         <v-btn
                             v-bind:class="$style.formNavigationButton"
                             v-bind:disabled="step === 5"
@@ -570,6 +583,11 @@
                     case 4: return 'Uploads Needed'
                 }
             },
+        },
+
+        created () {
+            console.log(this.step <= 4 && (this.$mq === 'xs' || this.$mq === 'sm'))
+            console.log(this.$mq)
         },
 
         methods: {
@@ -781,7 +799,7 @@
 
     .formNavigationButton {
         @media only screen and (max-width: 567px) {
-            width: 40%;
+            width: 20%;
         }
     }
 
@@ -814,6 +832,10 @@
 
         > * {
             font-size: 1rem;
+        }
+
+        @media only screen and (max-width: 567px) {
+            margin: 0 .5rem
         }
     }
 
