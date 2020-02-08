@@ -119,7 +119,7 @@
                                         v-on:click="dateOfBirthModalIsOpen = true"
                                     />
                                     <v-dialog
-                                        ref="dialog"
+                                        ref="dateOfBirthModal"
                                         v-model="dateOfBirthModalIsOpen"
                                         v-bind:return-value.sync="contactForm.date"
                                         persistent
@@ -134,13 +134,13 @@
                                             <v-spacer></v-spacer>
                                             <v-btn
                                                 text color="primary"
-                                                v-on:click="modal = false"
+                                                v-on:click="dateOfBirthModalIsOpen = false"
                                             >
                                                 Cancel
                                             </v-btn>
                                             <v-btn
                                                 text color="primary"
-                                                v-on:click="$refs.dialog.save(contactForm.date)"
+                                                v-on:click="$refs.dateOfBirthModal.save(contactForm.date)"
                                             >
                                                 OK
                                             </v-btn>
@@ -270,7 +270,7 @@
                                     v-on:click="startDateModalIsOpen = true"
                                 />
                                 <v-dialog
-                                    ref="dialog"
+                                    ref="startDateModal"
                                     v-model="startDateModalIsOpen"
                                     v-bind:return-value.sync="startDate"
                                     persistent
@@ -285,13 +285,13 @@
                                         <v-spacer></v-spacer>
                                         <v-btn
                                             text color="primary"
-                                            v-on:click="modal = false"
+                                            v-on:click="startDateModalIsOpen = false"
                                         >
                                             Cancel
                                         </v-btn>
                                         <v-btn
                                             text color="primary"
-                                            v-on:click="$refs.dialog.save(startDate)"
+                                            v-on:click="$refs.startDateModal.save(startDate)"
                                         >
                                             OK
                                         </v-btn>
