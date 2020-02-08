@@ -186,7 +186,10 @@
                         </v-window-item>
                         <v-window-item v-bind:value="3">
                             <span v-bind:class="$style.caption">Select the days and times you prefer to work:</span>
-                            <div v-bind:class="$style.availability">
+                            <div
+                                v-if="$mq !== 'xs' && $mq !== 'sm'"
+                                v-bind:class="$style.availability"
+                            >
                                 <div v-bind:class="$style.timeOfday">
                                     <span>Morning</span>
                                     <span>Afternoon</span>
@@ -196,7 +199,8 @@
                                     v-bind:class="$style.availabilityTable"
                                     v-bind:headers="days"
                                     v-bind:items="selections"
-                                    v-bind:mobile-breakpoint="0"
+                                    v-bind:mobile-breakpoint="414"
+                                    v-bind:disable-sort="$mq === 'xs' || $mq === 'sm'"
                                     hide-default-footer
                                 >
                                     <template
@@ -256,6 +260,31 @@
                                         />
                                     </template>
                                 </v-data-table>
+                            </div>
+                            <div
+                                v-else
+                                v-bind:class="$style.availabilityMobile"
+                            >
+                                <v-expansion-panels
+                                    tile
+                                    hover
+                                >
+                                    <v-expansion-panel
+                                        v-for="(available, index) in availability"
+                                        v-bind:key="index"
+                                    >
+                                        <v-expansion-panel-header>{{ available.time }}</v-expansion-panel-header>
+                                        <v-expansion-panel-content
+                                            v-for="(day, index) in available.days"
+                                            v-bind:key="index"
+                                        >
+                                            <v-checkbox
+                                                v-bind:label="day"
+                                                color="primary"
+                                            />
+                                        </v-expansion-panel-content>
+                                    </v-expansion-panel>
+                                </v-expansion-panels>
                             </div>
                             <span v-bind:class="$style.questionGroup">
                                 <v-select
@@ -357,6 +386,7 @@
                 <div>
                     <v-card-actions v-bind:class="$style.bottomContainer">
                         <v-btn
+                            v-bind:class="$style.formNavigationButton"
                             v-bind:disabled="step === 1"
                             v-bind:text="step === 1"
                             v-bind:depressed="step > 1"
@@ -383,6 +413,7 @@
                             </template>
                         </v-progress-linear>
                         <v-btn
+                            v-bind:class="$style.formNavigationButton"
                             v-bind:disabled="step === 5"
                             depressed
                             color="primary"
@@ -489,6 +520,44 @@
                     checkbox: false,
                 },
             ],
+            availability: [
+                {
+                    time: 'Morning',
+                    days: [
+                        'Monday',
+                        'Tuesday',
+                        'Wedesnday',
+                        'Thursday',
+                        'Friday',
+                        'Saturday',
+                        'Sunday',
+                    ]
+                },
+                {
+                    time: 'Afternoon',
+                    days: [
+                        'Monday',
+                        'Tuesday',
+                        'Wedesnday',
+                        'Thursday',
+                        'Friday',
+                        'Saturday',
+                        'Sunday',
+                    ]
+                },
+                {
+                    time: 'Evening',
+                    days: [
+                        'Monday',
+                        'Tuesday',
+                        'Wedesnday',
+                        'Thursday',
+                        'Friday',
+                        'Saturday',
+                        'Sunday',
+                    ]
+                },
+            ],
         }),
 
         computed: {
@@ -571,7 +640,7 @@
 
         @media only screen and (max-width: 567px) {
             height: auto;
-            margin: 0 1rem;
+            margin: 2rem 1rem;
         }
     }
 
@@ -602,7 +671,7 @@
         font-weight: 900;
 
         @media only screen and (max-width: 567px) {
-            padding-bottom: .5rem;
+            padding-bottom: 1.25rem;
         }
     }
 
@@ -631,7 +700,7 @@
             font-size: 2rem;
 
             @media only screen and (max-width: 567px) {
-                font-size: 1rem;
+                font-size: 1.25rem;
             }
         }
     }
@@ -683,6 +752,18 @@
 
     .bottomContainer {
         padding: 0;
+
+        @media only screen and (max-width: 567px) {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+        }
+    }
+
+    .formNavigationButton {
+        @media only screen and (max-width: 567px) {
+            width: 40%;
+        }
     }
 
     .progressBar {
@@ -721,6 +802,7 @@
         color: rgba(0, 0, 0, .75);
         font-size: 2rem;
         font-weight: 300;
+        text-align: center;
     }
 
     .message {
@@ -796,6 +878,7 @@
         font-weight: 300;
         justify-content: center;
         padding: .25rem 0 0;
+        text-align: center;
     }
 
     .availability {
@@ -820,6 +903,10 @@
     .availabilityTable {
         margin-top: 1rem;
         width: 100%;
+    }
+
+    .availabilityMobile {
+        margin: 2rem 0 1.5rem;
     }
 
     .completedApplication {
