@@ -371,7 +371,7 @@
                             Back
                         </v-btn>
                         <v-progress-linear
-                            v-if="$mq !== 'xs' && $mq !== 'sm'"
+                            v-show="$mq !== 'xs' && $mq !== 'sm'"
                             v-bind:class="[
                                 $style.progressBar,
                                 (step > 3 ? 'white--text' : null),
