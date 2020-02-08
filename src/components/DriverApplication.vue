@@ -17,6 +17,7 @@
                     Split Driver Application
                 </p>
                 <v-btn
+                    v-bind:class="$style.jobDescription"
                     outlined
                     class="white--text"
                     v-on:click="descriptionModalIsOpen = true"
@@ -596,6 +597,10 @@
         height: 100vh;
         width: 100%;
         z-index: 10;
+
+        @media only screen and (max-width: 567px) {
+            height: 100%;
+        }
     }
 
     .skewedBox {
@@ -672,6 +677,12 @@
 
         @media only screen and (max-width: 567px) {
             padding-bottom: 1.25rem;
+        }
+    }
+
+    .jobDescription {
+        @media only screen and (max-width: 567px) {
+            margin-bottom: .5rem;
         }
     }
 
