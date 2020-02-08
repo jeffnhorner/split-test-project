@@ -11,14 +11,13 @@ const options = {
         themes: {
             light: {
                 primary: '#00CDAC',
-                secondary: '#fff',
             },
         },
     },
 };
 
 export default function (Vue, { router, head, isClient, appOptions }) {
-  Vue.use(Vuetify);
-  Vue.component('Layout', DefaultLayout);
-  appOptions.vuetify = new Vuetify(options);
+    Vue.use(Vuetify);
+    Vue.component('Layout', DefaultLayout);
+    appOptions.vuetify = new Vuetify(options);
 }
