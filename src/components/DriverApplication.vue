@@ -129,7 +129,7 @@
                                         </template>
                                         <v-date-picker
                                             v-model="contactForm.date"
-                                            v-bind:landscape="!isMobile"
+                                            v-bind:landscape="$mq !== 'xs' && $mq !== 'sm'"
                                             scrollable
                                             reactive
                                         >
@@ -282,7 +282,7 @@
                                     </template>
                                     <v-date-picker
                                         v-model="startDate"
-                                        v-bind:landscape="!isMobile"
+                                        v-bind:landscape="$mq !== 'xs' && $mq !== 'sm'"
                                         scrollable
                                         reactive
                                     >
@@ -371,7 +371,7 @@
                             Back
                         </v-btn>
                         <v-progress-linear
-                            v-if="!isMobile"
+                            v-if="$mq !== 'xs' && $mq !== 'sm'"
                             v-bind:class="[
                                 $style.progressBar,
                                 (step > 3 ? 'white--text' : null),
@@ -413,7 +413,6 @@
         },
 
         data: vm => ({
-            isMobile: false,
             descriptionModalIsOpen: false,
             step: 1,
             modal: false,
@@ -503,21 +502,6 @@
                     case 4: return 'Uploads Needed'
                 }
             },
-        },
-
-        created () {
-            if (window.innerWidth < 567) {
-                this.isMobile = true;
-            }
-
-            // temporary way update the styles of the progress bar on mobile
-            window.addEventListener('resize', () => {
-                if (window.innerWidth < 567) {
-                    this.isMobile = true;
-                } else {
-                    this.isMobile = false;
-                }
-            });
         },
 
         methods: {
