@@ -82,7 +82,7 @@
                         v-if="step === 1"
                         v-bind:class="$style.message"
                     >
-                        Want to earn $15/hr + tip by becoming a take split driver? Begin the application below and click the Next to continue and show your application progress.
+                        Want to earn $15/hr + tip by becoming a Split driver? Begin the application below and click the Next to continue and show your application progress.
                     </span>
                     <v-window v-model="step">
                         <v-window-item v-bind:value="1">
