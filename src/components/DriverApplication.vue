@@ -737,6 +737,14 @@
 
         .caption {
             margin-bottom: 1.5rem;
+
+            @media only screen and (max-width: 567px) {
+                margin-bottom: .5rem;
+            }
+        }
+
+        @media only screen and (max-width: 567px) {
+            margin-bottom: .5rem;
         }
     }
 
@@ -942,9 +950,9 @@
         height: 5rem;
 
         @media only screen and (max-width: 567px) {
-            margin: 0 1rem 1rem;
-            width: 3.5rem;
-            height: 3.5rem;
+            margin: -1rem 1rem 1rem;
+            width: 4rem;
+            height: 4rem;
         }
     }
 
