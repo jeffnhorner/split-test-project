@@ -814,6 +814,11 @@
         font-size: 2rem;
         font-weight: 300;
         text-align: center;
+
+        @media only screen and (max-width: 567px) {
+            font-size: 1.25rem;
+            margin-bottom: .5rem;
+        }
     }
 
     .message {
@@ -925,12 +930,22 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+
+        @media only screen and (max-width: 567px) {
+            margin-bottom: 2rem;
+        }
     }
 
     .completedLogo {
         margin: 2rem;
         width: 5rem;
         height: 5rem;
+
+        @media only screen and (max-width: 567px) {
+            margin: 0 1rem 1rem;
+            width: 3.5rem;
+            height: 3.5rem;
+        }
     }
 
     .submitButton {
