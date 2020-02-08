@@ -344,7 +344,7 @@
                                 />
                                 <h3 v-bind:class="$style.messageHeadline">You've successfully filled out your application!</h3>
                                 <span v-bind:class="$style.message">
-                                    Please verify all information prior to submitting.
+                                    Please verify all of your information prior to submitting.
                                 </span>
                                 <v-btn
                                     v-bind:class="$style.submitButton"
