@@ -305,7 +305,7 @@
                         </v-window-item>
                         <v-window-item v-bind:value="4">
                             <div v-bind:class="$style.uploadContainer">
-                                <span v-bind:class="$style.caption">Select the days and times you prefer to work:</span>
+                                <span v-bind:class="$style.caption">Split requires drivers to maintain an active motorcycle [M1] endorsement.</span>
                                 <span v-bind:class="$style.uploadContent">
                                     <span>Drivers License [Front Picture] *</span>
                                     <v-btn
