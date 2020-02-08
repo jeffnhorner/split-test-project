@@ -116,7 +116,7 @@
                                     <v-text-field
                                         v-bind:class="$style.question"
                                         v-model="contactForm.date"
-                                        placeholder="What is Your Dat of Birth? *"
+                                        placeholder="What is Your Date of Birth? *"
                                         v-on:click="dateOfBirthModalIsOpen = true"
                                     />
                                     <v-dialog
