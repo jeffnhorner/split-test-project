@@ -12,6 +12,6 @@ export default {
 
     components: {
         DriverApplication: () => import('~/components/DriverApplication'),
-    }
+    },
 }
 </script>
