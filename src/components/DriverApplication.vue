@@ -1,7 +1,7 @@
 <template>
     <div v-bind:class="$style.container">
         <HeaderLogo />
-        <v-card
+        <VCard
             v-bind:class="$style.applicationWrapper"
         >
             <span v-bind:class="$style.headlineContainer">
@@ -11,44 +11,44 @@
                 >
                     Split Driver Application
                 </p>
-                <v-btn
+                <VBtn
                     v-bind:class="$style.jobDescription"
                     outlined
                     class="white--text"
                     v-on:click="$store.commit('setJobDescriptionModalState', true)"
                 >
                     Job Description
-                </v-btn>
+                </VBtn>
                 <JobDescriptionModal />
             </span>
             <div v-bind:class="$style.application">
                 <div>
-                    <v-card-title v-bind:class="$style.title">
+                    <VCardTitle v-bind:class="$style.title">
                         <span>
                             {{ currentTitle }}
                         </span>
-                    </v-card-title>
-                    <v-window v-model="applicationPhase">
-                        <v-window-item v-bind:value="1">
+                    </VCardTitle>
+                    <VWindow v-model="applicationPhase">
+                        <VWindowItem v-bind:value="1">
                             <DriverApplicationStepOne />
-                        </v-window-item>
-                        <v-window-item v-bind:value="2">
+                        </VWindowItem>
+                        <VWindowItem v-bind:value="2">
                             <DriverApplicationStepTwo />
-                        </v-window-item>
-                        <v-window-item v-bind:value="3">
+                        </VWindowItem>
+                        <VWindowItem v-bind:value="3">
                             <DriverApplicationStepThree />
-                        </v-window-item>
-                        <v-window-item v-bind:value="4">
+                        </VWindowItem>
+                        <VWindowItem v-bind:value="4">
                             <DriverApplicationStepFour />
-                        </v-window-item>
-                        <v-window-item v-bind:value="5">
+                        </VWindowItem>
+                        <VWindowItem v-bind:value="5">
                             <DriverApplicationStepFive />
-                        </v-window-item>
-                    </v-window>
+                        </VWindowItem>
+                    </VWindow>
                 </div>
                 <div>
-                    <v-card-actions v-bind:class="$style.bottomContainer">
-                        <v-btn
+                    <VCardActions v-bind:class="$style.bottomContainer">
+                        <VBtn
                             v-bind:class="$style.formNavigationButton"
                             v-bind:disabled="applicationPhase === 1"
                             v-bind:text="applicationPhase === 1"
@@ -58,8 +58,8 @@
                             color="primary"
                         >
                             Back
-                        </v-btn>
-                        <v-progress-linear
+                        </VBtn>
+                        <VProgressLinear
                             v-show="$mq !== 'xs' && $mq !== 'sm'"
                             v-bind:class="[
                                 $style.progressBar,
@@ -74,7 +74,7 @@
                             <template v-slot="{ value }">
                                 <p v-bind:class="$style.progressBarMessage">Your Application Progress: <strong>{{ Math.ceil(value) }}%</strong></p>
                             </template>
-                        </v-progress-linear>
+                        </VProgressLinear>
                         <span
                             v-show="applicationPhase <= 4 && ($mq === 'xs' || $mq === 'sm')"
                             v-bind:class="$style.progressStep"
@@ -88,7 +88,7 @@
                             />
                             <p>of 4</p>
                         </span>
-                        <v-btn
+                        <VBtn
                             v-bind:class="$style.formNavigationButton"
                             v-bind:disabled="applicationPhase === 5"
                             depressed
@@ -96,11 +96,11 @@
                             v-on:click="handleFormProgression"
                         >
                             Next
-                        </v-btn>
-                    </v-card-actions>
+                        </VBtn>
+                    </VCardActions>
                 </div>
             </div>
-        </v-card>
+        </VCard>
         <p v-bind:class="$style.footer">&copy; 2020 Split Rides, LLC.</p>
         <div v-bind:class="[$style.skewedBox, $style.overlay]" />
     </div>

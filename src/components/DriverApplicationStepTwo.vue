@@ -1,37 +1,37 @@
 <template>
-    <v-card-text v-bind:class="$style.stepContainer">
+    <VCardText v-bind:class="$style.stepContainer">
         <span v-bind:class="$style.questionGroup">
-            <v-select
+            <VSelect
                 v-bind:class="$style.question"
                 v-bind:items="['yes', 'no']"
                 placeholder="Are you over the age of 25? *"
             />
-            <v-select
+            <VSelect
                 v-bind:class="$style.question"
                 v-bind:items="['yes', 'no']"
                 placeholder="Do you have a valid motorcycle (M1) license? *"
             />
         </span>
         <span v-bind:class="$style.questionGroup">
-            <v-select
+            <VSelect
                 v-bind:class="$style.question"
                 v-bind:items="['yes', 'no']"
                 placeholder="Are you able to commute to Marina Del Rey? *"
             />
-            <v-select
+            <VSelect
                 v-bind:class="$style.question"
                 v-bind:items="['no experience', 'little experience', 'some experience', 'very experienced']"
                 placeholder="How experienced are you with lane spliting? *"
             />
         </span>
         <span v-bind:class="$style.singleQuestionGroup">
-            <v-select
+            <VSelect
                 v-bind:class="$style.question"
                 v-bind:items="['0 - 10', '10 - 20', '20 - 30', '30 - 40']"
                 placeholder="How many hours per week do you prefer to work? *"
             />
         </span>
-    </v-card-text>
+    </VCardText>
 </template>
 
 <style lang="scss" module>
