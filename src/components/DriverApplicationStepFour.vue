@@ -3,30 +3,30 @@
         <span v-bind:class="$style.caption">Split requires drivers to maintain an active motorcycle [M1] endorsement.</span>
         <span v-bind:class="$style.uploadContent">
             <span>Drivers License [Front Picture] *</span>
-            <v-btn
+            <VBtn
                 depressed
                 color="primary"
             >
                 Front Picture
-            </v-btn>
+            </VBtn>
         </span>
         <span v-bind:class="$style.uploadContent">
             <span>Drivers License [Back Picture] *</span>
-            <v-btn
+            <VBtn
                 depressed
                 color="primary"
             >
                 Back Picture
-            </v-btn>
+            </VBtn>
         </span>
         <span v-bind:class="$style.uploadContent">
             <span>Drivers License [Front Picture]:</span>
-            <v-btn
+            <VBtn
                 depressed
                 color="primary"
             >
                 Please upload a resume
-            </v-btn>
+            </VBtn>
         </span>
     </div>
 </template>

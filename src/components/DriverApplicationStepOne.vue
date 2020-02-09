@@ -3,68 +3,68 @@
         <span v-bind:class="$style.message">
             Want to earn $15/hr + tip by becoming a Split driver? Begin the application below and click the Next to continue and show your application progress.
         </span>
-        <v-card-text v-bind:class="$style.stepContainer">
+        <VCardText v-bind:class="$style.stepContainer">
             <span v-bind:class="$style.questionGroup">
-                <v-text-field
+                <VTextField
                     v-bind:class="$style.question"
                     v-model="contactForm.fname"
                     placeholder="First Name *"
                 />
-                <v-text-field
+                <VTextField
                     v-bind:class="$style.question"
                     v-model="contactForm.lname"
                     placeholder="Last Name *"
                 />
             </span>
             <span v-bind:class="$style.questionGroup">
-                <v-text-field
+                <VTextField
                     v-bind:class="$style.question"
                     v-model="contactForm.email"
                     placeholder="Email *"
                 />
-                <v-text-field
+                <VTextField
                     v-bind:class="$style.question"
                     v-model="contactForm.phoneNumber"
                     placeholder="Phone Number *"
                 />
             </span>
             <span v-bind:class="$style.singleQuestionGroup">
-                <v-text-field
+                <VTextField
                     v-bind:class="$style.question"
                     v-model="contactForm.date"
                     placeholder="What is Your Date of Birth? *"
                     v-on:click="$store.commit('setDateOfBirthModalState', true)"
                 />
-                <v-dialog
+                <VDialog
                     ref="dateOfBirthModal"
                     v-model="$store.state.dateOfBirthModalIsOpen"
                     v-bind:return-value.sync="contactForm.date"
                     persistent
                     width="29rem"
                 >
-                    <v-date-picker
+                    <VDatePicker
                         v-model="contactForm.date"
                         v-bind:landscape="$mq !== 'xs' && $mq !== 'sm'"
                         scrollable
                         reactive
                     >
-                        <v-spacer></v-spacer>
-                        <v-btn
+                        <VSpacer />
+                        <VBtn
                             text color="primary"
                             v-on:click="$store.commit('setDateOfBirthModalState', false)"
                         >
                             Cancel
-                        </v-btn>
-                        <v-btn
+                        </VBtn>
+                        <VBtn
                             text color="primary"
                             v-on:click="$refs.dateOfBirthModal.save(contactForm.date)"
                         >
                             OK
-                        </v-btn>
-                    </v-date-picker>
-                </v-dialog>
+                        </VBtn>
+                    </VDatePicker>
+                </VDialog>
             </span>
-        </v-card-text>
+        </VCardText>
     </section>
 </template>
 

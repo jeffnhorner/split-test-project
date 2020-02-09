@@ -12,7 +12,7 @@
                 <span>Afternoon</span>
                 <span>Evening</span>
             </div>
-            <v-data-table
+            <VDataTable
                 v-bind:class="$style.availabilityTable"
                 v-bind:headers="days"
                 v-bind:items="selections"
@@ -23,7 +23,7 @@
                 <template
                     v-slot:item.Monday="{ item }"
                 >
-                    <v-simple-checkbox
+                    <VSimpleCheckbox
                         v-model="item.Monday"
                         color="primary"
                     />
@@ -31,7 +31,7 @@
                 <template
                     v-slot:item.Tuesday="{ item }"
                 >
-                    <v-simple-checkbox
+                    <VSimpleCheckbox
                         v-model="item.Tuesday"
                         color="primary"
                     />
@@ -39,7 +39,7 @@
                 <template
                     v-slot:item.Wednesday="{ item }"
                 >
-                    <v-simple-checkbox
+                    <VSimpleCheckbox
                         v-model="item.Wednesday"
                         color="primary"
                     />
@@ -47,7 +47,7 @@
                 <template
                     v-slot:item.Thursday="{ item }"
                 >
-                    <v-simple-checkbox
+                    <VSimpleCheckbox
                         v-model="item.Thursday"
                         color="primary"
                     />
@@ -55,7 +55,7 @@
                 <template
                     v-slot:item.Friday="{ item }"
                 >
-                    <v-simple-checkbox
+                    <VSimpleCheckbox
                         v-model="item.Friday"
                         color="primary"
                     />
@@ -63,7 +63,7 @@
                 <template
                     v-slot:item.Saturday="{ item }"
                 >
-                    <v-simple-checkbox
+                    <VSimpleCheckbox
                         v-model="item.Saturday"
                         color="primary"
                     />
@@ -71,27 +71,29 @@
                 <template
                     v-slot:item.Sunday="{ item }"
                 >
-                    <v-simple-checkbox
+                    <VSimpleCheckbox
                         v-model="item.Sunday"
                         color="primary"
                     />
                 </template>
-            </v-data-table>
+            </VDataTable>
         </div>
         <div
             v-else
             v-bind:class="$style.availabilityMobile"
         >
-            <v-expansion-panels
+            <VExpansionPanels
                 tile
                 hover
             >
-                <v-expansion-panel
+                <VExpansionPanel
                     v-for="(available, index) in availability"
                     v-bind:key="index"
                 >
-                    <v-expansion-panel-header>{{ available.time }}</v-expansion-panel-header>
-                    <v-expansion-panel-content
+                    <VExpansionPanelHeader>
+                        {{ available.time }}
+                    </VExpansionPanelHeader>
+                    <VExpansionPanelContent
                         v-for="(day, index) in available.days"
                         v-bind:key="index"
                     >
@@ -99,50 +101,50 @@
                             v-bind:label="day"
                             color="primary"
                         />
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
-            </v-expansion-panels>
+                    </VExpansionPanelContent>
+                </VExpansionPanel>
+            </VExpansionPanels>
         </div>
         <span v-bind:class="$style.questionGroup">
-            <v-select
+            <VSelect
                 v-bind:class="$style.question"
                 v-bind:items="['none', '0 - 1 years', '3 - 5 years', '5+ years']"
                 placeholder="What's your motorcycle driving experience? *"
             />
-            <v-text-field
+            <VTextField
                 v-bind:class="$style.question"
                 v-model="startDate"
                 placeholder="When would you be able to start driving? *"
                 v-on:click="$store.commit('setStartDateModalIsOpenState', true)"
             />
-            <v-dialog
+            <VDialog
                 ref="startDateModal"
                 v-model="$store.state.startDateModalIsOpen"
                 v-bind:return-value.sync="startDate"
                 persistent
                 width="29rem"
             >
-                <v-date-picker
+                <VDatePicker
                     v-model="startDate"
                     v-bind:landscape="$mq !== 'xs' && $mq !== 'sm'"
                     scrollable
                     reactive
                 >
-                    <v-spacer></v-spacer>
-                    <v-btn
+                    <VSpacer />
+                    <VBtn
                         text color="primary"
                         v-on:click="$store.commit('setStartDateModalIsOpenState', false)"
                     >
                         Cancel
-                    </v-btn>
-                    <v-btn
+                    </VBtn>
+                    <VBtn
                         text color="primary"
                         v-on:click="$refs.startDateModal.save(startDate)"
                     >
                         OK
-                    </v-btn>
-                </v-date-picker>
-            </v-dialog>
+                    </VBtn>
+                </VDatePicker>
+            </VDialog>
         </span>
     </section>
 </template>
