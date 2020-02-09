@@ -72,7 +72,11 @@
                             striped
                         >
                             <template v-slot="{ value }">
-                                <p v-bind:class="$style.progressBarMessage">Your Application Progress: <strong>{{ Math.ceil(value) }}%</strong></p>
+                                <p v-bind:class="$style.progressBarMessage">Your Application Progress:
+                                    <strong>
+                                        {{ Math.ceil(value) }}%
+                                    </strong>
+                                </p>
                             </template>
                         </VProgressLinear>
                         <span
@@ -80,7 +84,7 @@
                             v-bind:class="$style.progressStep"
                         >
                             <p>step</p>
-                            <v-avatar
+                            <VAvatar
                                 color="primary"
                                 class="subheading white--text"
                                 size="28"
