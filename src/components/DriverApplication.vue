@@ -21,7 +21,7 @@
                 </v-btn>
                 <JobDescriptionModal />
             </span>
-            <div v-bind:class="$style.questionsWrapper">
+            <div v-bind:class="$style.application">
                 <div>
                     <v-card-title v-bind:class="$style.title">
                         <span>
@@ -212,7 +212,7 @@
         }
     }
 
-    .questionsWrapper {
+    .application {
         display: flex;
         height: 100%;
         flex-direction: column;
