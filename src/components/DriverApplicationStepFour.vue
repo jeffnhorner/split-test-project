@@ -32,6 +32,16 @@
 </template>
 
 <style lang="scss" module>
+    .caption {
+        color: rgba(0, 0, 0, .5);
+        display: flex;
+        font-size: .9rem;
+        font-weight: 300;
+        justify-content: center;
+        padding: .25rem 0 0;
+        text-align: center;
+    }
+
     .uploadContainer {
         width: 100%;
         display: flex;
@@ -40,14 +50,6 @@
 
         .caption {
             margin-bottom: 1.5rem;
-
-            @media only screen and (max-width: 567px) {
-                margin-bottom: .5rem;
-            }
-        }
-
-        @media only screen and (max-width: 567px) {
-            margin-bottom: .5rem;
         }
     }
 
@@ -62,8 +64,18 @@
             color: rgba(0, 0, 0, .5);
             font-size: .9rem;
         }
+    }
 
-        @media only screen and (max-width: 567px) {
+    @media only screen and (max-width: 567px) {
+        .uploadContainer {
+            margin-bottom: .5rem;
+
+            .caption {
+                margin-bottom: .5rem;
+            }
+        }
+
+        .uploadContent {
             flex-direction: column;
 
             > span {

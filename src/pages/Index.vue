@@ -7,7 +7,7 @@
 <script>
 export default {
     metaInfo: {
-        title: 'Hello, world!'
+        title: "Become a Take Split Driver | Driver Application"
     },
 
     components: {
