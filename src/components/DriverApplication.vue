@@ -21,7 +21,7 @@
                 </v-btn>
                 <JobDescriptionModal />
             </span>
-            <div v-bind:class="$style.questionsWrapper">
+            <div v-bind:class="$style.application">
                 <div>
                     <v-card-title v-bind:class="$style.title">
                         <span>
@@ -30,9 +30,7 @@
                     </v-card-title>
                     <v-window v-model="step">
                         <v-window-item v-bind:value="1">
-                            <DriverApplicationStepOne
-                                v-bind:step="step"
-                             />
+                            <DriverApplicationStepOne />
                         </v-window-item>
                         <v-window-item v-bind:value="2">
                             <DriverApplicationStepTwo />
@@ -214,7 +212,7 @@
         }
     }
 
-    .questionsWrapper {
+    .application {
         display: flex;
         height: 100%;
         flex-direction: column;

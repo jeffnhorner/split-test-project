@@ -1,9 +1,6 @@
 <template>
     <section>
-        <span
-            v-if="step === 1"
-            v-bind:class="$style.message"
-        >
+        <span v-bind:class="$style.message">
             Want to earn $15/hr + tip by becoming a Split driver? Begin the application below and click the Next to continue and show your application progress.
         </span>
         <v-card-text v-bind:class="$style.stepContainer">
@@ -73,13 +70,6 @@
 
 <script>
     export default {
-        props: {
-            step: {
-                type: Number,
-                required: true,
-            }
-        },
-
         data: () => ({
             contactForm: {
                 fname: null,
