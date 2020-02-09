@@ -30,9 +30,7 @@
                     </v-card-title>
                     <v-window v-model="step">
                         <v-window-item v-bind:value="1">
-                            <DriverApplicationStepOne
-                                v-bind:step="step"
-                             />
+                            <DriverApplicationStepOne />
                         </v-window-item>
                         <v-window-item v-bind:value="2">
                             <DriverApplicationStepTwo />
