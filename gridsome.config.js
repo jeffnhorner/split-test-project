@@ -5,29 +5,28 @@
 // To restart press CTRL + C in terminal and run `gridsome develop`
 
 module.exports = {
-  siteName: "Gridsome",
-  plugins: [],
-  module: {
-    rules: [
-      {
-        test: /\.s[ac]ss$/i,
-        use: [
-          "vue-style-loader",
-          "css-loader",
-          {
-              // Compiles Sass to CSS
-              loader: "sass-loader",
-              // Requires sass-loader@^8.0.0
-              options: {
-                  implementation: require('sass'),
-                  sassOptions: {
-                      fiber: require('fibers'),
-                      indentedSyntax: true // optional
-                  },
-              },
-          },
+    siteName: "Gridsome",
+    plugins: [],
+    module: {
+        rules: [
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    "vue-style-loader",
+                    "css-loader",
+                    {
+                        loader: "sass-loader",
+                        // Requires sass-loader@^8.0.0
+                        options: {
+                            implementation: require('sass'),
+                            sassOptions: {
+                                fiber: require('fibers'),
+                                indentedSyntax: true,
+                            },
+                        },
+                    },
+                ]
+            }
         ]
-      }
-    ]
-  }
+    }
 };
