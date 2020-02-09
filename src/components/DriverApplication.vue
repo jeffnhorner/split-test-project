@@ -28,7 +28,7 @@
                             {{ currentTitle }}
                         </span>
                     </v-card-title>
-                    <v-window v-model="step">
+                    <v-window v-model="applicationPhase">
                         <v-window-item v-bind:value="1">
                             <DriverApplicationStepOne />
                         </v-window-item>
@@ -50,10 +50,10 @@
                     <v-card-actions v-bind:class="$style.bottomContainer">
                         <v-btn
                             v-bind:class="$style.formNavigationButton"
-                            v-bind:disabled="step === 1"
-                            v-bind:text="step === 1"
-                            v-bind:depressed="step > 1"
-                            v-on:click="formProgression(false)"
+                            v-bind:disabled="applicationPhase === 1"
+                            v-bind:text="applicationPhase === 1"
+                            v-bind:depressed="applicationPhase > 1"
+                            v-on:click="handleFormProgression(false)"
                             outlined
                             color="primary"
                         >
@@ -63,7 +63,7 @@
                             v-show="$mq !== 'xs' && $mq !== 'sm'"
                             v-bind:class="[
                                 $style.progressBar,
-                                (step > 3 ? 'white--text' : null),
+                                (applicationPhase > 3 ? 'white--text' : null),
                             ]"
                             v-model="skill"
                             background-opacity=".1"
@@ -76,7 +76,7 @@
                             </template>
                         </v-progress-linear>
                         <span
-                            v-show="step <= 4 && ($mq === 'xs' || $mq === 'sm')"
+                            v-show="applicationPhase <= 4 && ($mq === 'xs' || $mq === 'sm')"
                             v-bind:class="$style.progressStep"
                         >
                             <p>step</p>
@@ -84,16 +84,16 @@
                                 color="primary"
                                 class="subheading white--text"
                                 size="28"
-                                v-text="step"
+                                v-text="applicationPhase"
                             />
                             <p>of 4</p>
                         </span>
                         <v-btn
                             v-bind:class="$style.formNavigationButton"
-                            v-bind:disabled="step === 5"
+                            v-bind:disabled="applicationPhase === 5"
                             depressed
                             color="primary"
-                            v-on:click="formProgression"
+                            v-on:click="handleFormProgression"
                         >
                             Next
                         </v-btn>
@@ -119,32 +119,35 @@
         },
 
         data: vm => ({
-            step: 1,
             modal: false,
             skill: 0,
         }),
 
         computed: {
             currentTitle () {
-                switch (this.step) {
+                switch (this.applicationPhase) {
                     case 1: return 'Hello, nice to meet you!'
                     case 2: return 'Just a Couple Questions...'
                     case 3: return 'Availabiliy & Experience'
                     case 4: return 'Uploads Needed'
                 }
             },
+
+            applicationPhase () {
+                return this.$store.state.applicationPhase;
+            },
         },
 
         methods: {
-            formProgression (nextStep = true) {
+            handleFormProgression (nextStep = true) {
                 if (nextStep) {
-                    this.step += 1;
+                    this.$store.commit('updateApplicationPhase');
                     this.skill += 100/4;
 
                     return;
                 }
 
-                this.step -= 1;
+                this.$store.commit('updateApplicationPhase', false);
                 this.skill -= 100/4;
             }
         }
@@ -160,10 +163,6 @@
         height: 100vh;
         width: 100%;
         z-index: 10;
-
-        @media only screen and (max-width: 567px) {
-            height: 100%;
-        }
     }
 
     .skewedBox {
@@ -205,11 +204,6 @@
         width: 95%;
         max-width: 56rem;
         margin: 0 auto;
-
-        @media only screen and (max-width: 567px) {
-            height: auto;
-            margin: 2rem 1rem;
-        }
     }
 
     .application {
@@ -227,26 +221,12 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
-
-        @media only screen and (max-width: 567px) {
-            flex-direction: column;
-        }
     }
 
     .headline {
         color: #fff;
         font-size: 1.25rem;
         font-weight: 900;
-
-        @media only screen and (max-width: 567px) {
-            padding-bottom: 1.25rem;
-        }
-    }
-
-    .jobDescription {
-        @media only screen and (max-width: 567px) {
-            margin-bottom: .5rem;
-        }
     }
 
     .title {
@@ -259,27 +239,11 @@
 
         > span {
             font-size: 2rem;
-
-            @media only screen and (max-width: 567px) {
-                font-size: 1.25rem;
-            }
         }
     }
 
     .bottomContainer {
         padding: 0;
-
-        @media only screen and (max-width: 567px) {
-            display: flex;
-            justify-content: space-between;
-            margin: 1rem 0;
-        }
-    }
-
-    .formNavigationButton {
-        @media only screen and (max-width: 567px) {
-            width: 20%;
-        }
     }
 
     .progressBar {
@@ -312,14 +276,67 @@
         > * {
             font-size: 1rem;
         }
-
-        @media only screen and (max-width: 567px) {
-            margin: 0 .5rem
-        }
     }
 
     .footer {
         color: rgba(0, 0, 0, .3);
         font-size: .8rem;
+    }
+
+
+    // Mobile only styles
+    @media only screen and (max-width: 567px) {
+        .container {
+            height: 100%;
+        }
+
+        .applicationWrapper {
+            height: auto;
+            margin: 2rem 1rem;
+        }
+
+        .application {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem;
+        }
+
+        .headlineContainer {
+            flex-direction: column;
+        }
+
+        .headline {
+            padding-bottom: 1.25rem;
+        }
+
+        .jobDescription {
+            margin-bottom: .5rem;
+        }
+
+        .title {
+            > span {
+                font-size: 1.25rem;
+            }
+        }
+
+        .bottomContainer {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+        }
+
+        .formNavigationButton {
+            width: 20%;
+        }
+
+        .progressBarMessage {
+            font-size: .9rem;
+        }
+
+        .progressStep {
+            margin: 0 .5rem
+        }
     }
 </style>

@@ -39,20 +39,27 @@ export default function (Vue, { router, head, isClient, appOptions }) {
             jobDescriptionModalIsOpen: false,
             dateOfBirthModalIsOpen: false,
             startDateModalIsOpen: false,
+            applicationPhase: 1,
         },
 
         mutations: {
-            setJobDescriptionModalState (state, jobDescriptionModalIsOpen) {
-                state.jobDescriptionModalIsOpen = jobDescriptionModalIsOpen;
+            setJobDescriptionModalState (state, isOpen) {
+                state.jobDescriptionModalIsOpen = isOpen;
             },
 
-            setDateOfBirthModalState (state, dateOfBirthModalIsOpen) {
-                state.dateOfBirthModalIsOpen = dateOfBirthModalIsOpen;
+            setDateOfBirthModalState (state, isOpen) {
+                state.dateOfBirthModalIsOpen = isOpen;
             },
 
-            setStartDateModalIsOpenState (state, startDateModalIsOpen) {
-                state.startDateModalIsOpen = startDateModalIsOpen;
+            setStartDateModalIsOpenState (state, isOpen) {
+                state.startDateModalIsOpen = isOpen;
             },
+
+            updateApplicationPhase (state, nextPhase = true) {
+                state.applicationPhase = nextPhase
+                  ? state.applicationPhase + 1
+                  : state.applicationPhase - 1;
+            }
         },
     });
 
