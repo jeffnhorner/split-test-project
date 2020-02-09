@@ -4,6 +4,7 @@
 import DefaultLayout from '~/layouts/Default.vue'
 import Vuetify from "vuetify";
 import VueMq from "vue-mq";
+import Vuex from "vuex";
 import "vuetify/dist/vuetify.min.css";
 import "@mdi/font/css/materialdesignicons.css";
 
@@ -29,6 +30,32 @@ export default function (Vue, { router, head, isClient, appOptions }) {
             xxl: Infinity,
         }
     });
+
+    Vue.use(Vuex);
+
+    // Instantiate a new vuex store
+    appOptions.store = new Vuex.Store({
+        state: {
+            jobDescriptionModalIsOpen: false,
+            dateOfBirthModalIsOpen: false,
+            startDateModalIsOpen: false,
+        },
+
+        mutations: {
+            setJobDescriptionModalState (state, jobDescriptionModalIsOpen) {
+                state.jobDescriptionModalIsOpen = jobDescriptionModalIsOpen;
+            },
+
+            setDateOfBirthModalState (state, dateOfBirthModalIsOpen) {
+                state.dateOfBirthModalIsOpen = dateOfBirthModalIsOpen;
+            },
+
+            setStartDateModalIsOpenState (state, startDateModalIsOpen) {
+                state.startDateModalIsOpen = startDateModalIsOpen;
+            },
+        },
+    });
+
     Vue.component('Layout', DefaultLayout);
     appOptions.vuetify = new Vuetify(vuetifyOptions);
 }
