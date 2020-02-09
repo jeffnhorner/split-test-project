@@ -1,22 +1,22 @@
 <template>
-    <v-app light>
+    <VApp>
         <slot/>
-    </v-app>
+    </VApp>
 </template>
 
 <static-query>
-query {
-  metadata {
-    siteName
-  }
-}
+    query {
+        metadata {
+            siteName
+        }
+    }
 </static-query>
 
 <style>
-body {
-    font-family: 'Montserrat', Helvetica, Arial, Lucida, sans-serif;
-    margin:0;
-    padding:0;
-    line-height: 1.5;
-}
+    body {
+        font-family: 'Montserrat', Helvetica, Arial, Lucida, sans-serif;
+        margin:0;
+        padding:0;
+        line-height: 1.5;
+    }
 </style>
