@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section v-if="isReady">
         <span v-bind:class="$style.caption">
             Select the days and times you prefer to work:
         </span>
@@ -26,6 +26,7 @@
                     <VSimpleCheckbox
                         v-model="item.Monday"
                         color="primary"
+                        v-on:input="test(item)"
                     />
                 </template>
                 <template
@@ -109,23 +110,28 @@
             <VSelect
                 v-bind:class="$style.question"
                 v-bind:items="['none', '0 - 1 years', '3 - 5 years', '5+ years']"
+                v-model="phaseQuestions3.experience"
+                v-on:change="$v.phaseQuestions3.experience.$touch()"
+                v-on:rules="validationRule($v, 'experience', 'This field is required', 'phaseQuestions3')"
                 placeholder="What's your motorcycle driving experience? *"
             />
             <VTextField
                 v-bind:class="$style.question"
-                v-model="startDate"
+                v-model="phaseQuestions3.startDate"
+                v-on:input="$v.phaseQuestions3.startDate.$touch()"
+                v-bind:rules="validationRule($v, 'startDate', 'You must select a start date', 'phaseQuestions3')"
                 placeholder="When would you be able to start driving? *"
                 v-on:click="$store.commit('setStartDateModalIsOpenState', true)"
             />
             <VDialog
                 ref="startDateModal"
                 v-model="$store.state.startDateModalIsOpen"
-                v-bind:return-value.sync="startDate"
+                v-bind:return-value.sync="phaseQuestions3.startDate"
                 persistent
                 width="29rem"
             >
                 <VDatePicker
-                    v-model="startDate"
+                    v-model="phaseQuestions3.startDate"
                     v-bind:landscape="$mq !== 'xs' && $mq !== 'sm'"
                     scrollable
                     reactive
@@ -139,7 +145,7 @@
                     </VBtn>
                     <VBtn
                         text color="primary"
-                        v-on:click="$refs.startDateModal.save(startDate)"
+                        v-on:click="$refs.startDateModal.save(phaseQuestions3.startDate)"
                     >
                         OK
                     </VBtn>
@@ -150,9 +156,15 @@
 </template>
 
 <script>
+    import { required } from 'vuelidate/lib/validators';
+
     export default {
         data: () => ({
-            startDate: null,
+            phaseQuestions3: {
+                startDate: null,
+                experience: null,
+            },
+            isReady: false,
             days: [
                 {
                     text: 'Mon',
@@ -257,7 +269,58 @@
                     ]
                 },
             ],
-        })
+        }),
+
+        async created () {
+            // Dynamically import the validationRule utility function
+            const { default: validationRule } = await import('~/utilities/validationRule.js');
+
+            this.validationRule = validationRule;
+
+            this.isReady = true;
+
+            // Upon component creation, set the global vuelidate object so we can access it
+            // within all components.
+            this.$store.commit('setCurrentFormPhaseValidationObject', this.$v);
+
+            // Since Vuetify's VWindow component requires the child VWindowItem components to use vue's v-show directive
+            // so you don't lose data when you go forward or backward between appliation phases, we must watch the global
+            // applicationPhase value and only update the global vuelidate object when the applicationPhase equals the
+            // appopriate DriverApplicationStep component. (i.e. this single file component's name is DriverApplicationStepThree,
+            // therefore, whenever the globalApplicatonPhase === 3, update the global formValidation object with this
+            // components vuelidate validations).
+            this.$watch('$store.state.applicationPhase', () => {
+                // Set the global state's validationObject to the validations being defined in this component's
+                // vuelidate validation object below.
+                if (this.$store.state.applicationPhase === 3) {
+                    this.$store.commit('setCurrentFormPhaseValidationObject', this.$v);
+                }
+            });
+        },
+
+        mounted () {
+            const inputs = document.querySelectorAll('td');
+
+            console.log(inputs);
+        },
+
+        methods: {
+            test (event) {
+                console.log(event);
+            },
+        },
+
+        validations: {
+            phaseQuestions3: {
+                experience: {
+                    required,
+                },
+                startDate: {
+                    required,
+                },
+            },
+            validationGroup: ['phaseQuestions3'],
+        }
     }
 </script>
 
