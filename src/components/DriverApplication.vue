@@ -3,6 +3,11 @@
         <HeaderLogo />
         <VCard
             v-bind:class="$style.applicationWrapper"
+            v-bind:style="{
+                'minHeight': ($mq === 'xs' || $mq === 'sm') && applicationPhase <= 4
+                    ? '72vh'
+                    : null
+            }"
         >
             <span v-bind:class="$style.headlineContainer">
                 <p
@@ -168,8 +173,10 @@
                 // Otherwise, as long as we're not on the first application phase, go back to the previous
                 // application phase.
                 } else if (!nextStep && this.$store.state.applicationPhase !== 0) {
-                    const previousStep = this.$store.state.applicationPhase - 1;
-
+                    this.$store.commit('setFormPhaseValidationStatus', false);
+                    // If there's an validation error on the curren tapplication phase and the user tries
+                    // to go back, we can remove the validation error since we know in order to move forward
+                    // they would have had all required fields filled out.
                     this.$store.commit('updateApplicationPhase', false);
                     this.progressionPercentage -= 100/4;
 
@@ -229,7 +236,7 @@
     .applicationWrapper {
         box-shadow: .25rem .25rem .5rem rgba(0, 0, 0, .25);
         display: flex;
-        height: 40rem;
+        height: 41rem;
         flex-direction: column;
         width: 95%;
         max-width: 56rem;
