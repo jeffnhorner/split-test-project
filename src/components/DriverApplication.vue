@@ -3,6 +3,11 @@
         <HeaderLogo />
         <VCard
             v-bind:class="$style.applicationWrapper"
+            v-bind:style="{
+                'minHeight': ($mq === 'xs' || $mq === 'sm') && applicationPhase <= 4
+                    ? '72vh'
+                    : null
+            }"
         >
             <span v-bind:class="$style.headlineContainer">
                 <p
@@ -44,6 +49,12 @@
                         <VWindowItem v-bind:value="5">
                             <DriverApplicationStepFive />
                         </VWindowItem>
+                        <div
+                            v-bind:class="$style.validationErrorMessage"
+                            v-if="hasInvalidatedFormPhase"
+                        >
+                            Please fill out all required fields (*)
+                        </div>
                     </VWindow>
                 </div>
                 <div>
@@ -65,7 +76,7 @@
                                 $style.progressBar,
                                 (applicationPhase > 3 ? 'white--text' : null),
                             ]"
-                            v-model="skill"
+                            v-model="progressionPercentage"
                             background-opacity=".1"
                             color="primary"
                             height="39"
@@ -105,7 +116,7 @@
                 </div>
             </div>
         </VCard>
-        <p v-bind:class="$style.footer">&copy; 2020 Split Rides, LLC.</p>
+        <Footer />
         <div v-bind:class="[$style.skewedBox, $style.overlay]" />
     </div>
 </template>
@@ -118,13 +129,13 @@
             DriverApplicationStepThree: () => import('~/components/DriverApplicationStepThree'),
             DriverApplicationStepFour: () => import('~/components/DriverApplicationStepFour'),
             DriverApplicationStepFive: () => import('~/components/DriverApplicationStepFive'),
+            Footer: () => import('~/components/Footer'),
             HeaderLogo: () => import('~/components/HeaderLogo'),
             JobDescriptionModal: () => import('~/components/JobDescriptionModal'),
         },
 
         data: vm => ({
-            modal: false,
-            skill: 0,
+            progressionPercentage: 0,
         }),
 
         computed: {
@@ -140,21 +151,43 @@
             applicationPhase () {
                 return this.$store.state.applicationPhase;
             },
+
+            hasInvalidatedFormPhase () {
+                return this.$store.state.hasInvalidatedFormPhase;
+            }
         },
 
         methods: {
             handleFormProgression (nextStep = true) {
-                if (nextStep) {
+                // If we're trying to go to the next application phase & the current form phase
+                // validation is completed properly without validatione errors.
+                if (nextStep && !this.$store.state.formValidation.validationGroup.$invalid) {
+                    // Update the application window to the next step.
                     this.$store.commit('updateApplicationPhase');
-                    this.skill += 100/4;
+                    // Update the progression percentage for the user to view.
+                    this.progressionPercentage += 100/4;
+                    // Ensure the global state form validation state to validated.
+                    this.$store.commit('setFormPhaseValidationStatus', false);
+
+                    return;
+                // Otherwise, as long as we're not on the first application phase, go back to the previous
+                // application phase.
+                } else if (!nextStep && this.$store.state.applicationPhase !== 0) {
+                    this.$store.commit('setFormPhaseValidationStatus', false);
+                    // If there's an validation error on the curren tapplication phase and the user tries
+                    // to go back, we can remove the validation error since we know in order to move forward
+                    // they would have had all required fields filled out.
+                    this.$store.commit('updateApplicationPhase', false);
+                    this.progressionPercentage -= 100/4;
 
                     return;
                 }
 
-                this.$store.commit('updateApplicationPhase', false);
-                this.skill -= 100/4;
-            }
-        }
+                // If neither of the conditionals above are true, we'll assume the form isn't properly
+                // filled out, therefore, it's invalidated.
+                this.$store.commit('setFormPhaseValidationStatus', true);
+            },
+        },
     }
 </script>
 
@@ -203,7 +236,7 @@
     .applicationWrapper {
         box-shadow: .25rem .25rem .5rem rgba(0, 0, 0, .25);
         display: flex;
-        height: 40rem;
+        height: 41rem;
         flex-direction: column;
         width: 95%;
         max-width: 56rem;
@@ -246,6 +279,14 @@
         }
     }
 
+    .validationErrorMessage {
+        color: #ff5252;
+        font-size: .9rem;
+        margin: 1rem 0 0;
+        text-align: center;
+        width: 100%;
+    }
+
     .bottomContainer {
         padding: 0;
     }
@@ -280,11 +321,6 @@
         > * {
             font-size: 1rem;
         }
-    }
-
-    .footer {
-        color: rgba(0, 0, 0, .3);
-        font-size: .8rem;
     }
 
 

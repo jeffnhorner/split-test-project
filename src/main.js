@@ -2,6 +2,7 @@
 // The Client API can be used here. Learn more: gridsome.org/docs/client-api
 
 import DefaultLayout from '~/layouts/Default.vue'
+import Vuelidate from 'vuelidate';
 import Vuetify from "vuetify";
 import VueMq from "vue-mq";
 import Vuex from "vuex";
@@ -19,6 +20,7 @@ const vuetifyOptions = {
 };
 
 export default function (Vue, { router, head, isClient, appOptions }) {
+    Vue.use(Vuelidate);
     Vue.use(Vuetify);
     Vue.use(VueMq, {
         breakpoints: {
@@ -40,6 +42,8 @@ export default function (Vue, { router, head, isClient, appOptions }) {
             dateOfBirthModalIsOpen: false,
             startDateModalIsOpen: false,
             applicationPhase: 1,
+            formValidation: {},
+            hasInvalidatedFormPhase: false,
         },
 
         mutations: {
@@ -59,7 +63,15 @@ export default function (Vue, { router, head, isClient, appOptions }) {
                 state.applicationPhase = nextPhase
                   ? state.applicationPhase + 1
                   : state.applicationPhase - 1;
-            }
+            },
+
+            setCurrentFormPhaseValidationObject (state, validationObject) {
+                state.formValidation = validationObject;
+            },
+
+            setFormPhaseValidationStatus (state, status) {
+                state.hasInvalidatedFormPhase = status;
+            },
         },
     });
 
