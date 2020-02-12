@@ -99,6 +99,17 @@
         }),
 
         /**
+         * Vue computed properties are cached, and only re-computed on reactive dependency changes.
+         *
+         * @link https://vuejs.org/v2/api/#computed
+         */
+        computed: {
+            isMobile () {
+                return this.$mq === 'xs' || this.$mq === 'sm';
+            }
+        },
+
+        /**
          * Vue life-cycle hook called synchronously after the Vue instance is created.
          *
          * @link https://vuejs.org/v2/api/#created
@@ -132,17 +143,6 @@
                     this.$store.commit('setCurrentFormPhaseValidationObject', this.$v);
                 }
             });
-        },
-
-        /**
-         * Vue computed properties are cached, and only re-computed on reactive dependency changes.
-         *
-         * @link https://vuejs.org/v2/api/#computed
-         */
-        computed: {
-            isMobile () {
-                return this.$mq === 'xs' || this.$mq === 'sm';
-            }
         },
 
         /**

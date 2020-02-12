@@ -138,7 +138,7 @@
                 v-model="$store.state.startDateModalIsOpen"
                 v-bind:return-value.sync="phaseQuestions3.startDate"
                 persistent
-                width="29rem"
+                v-bind:width="!isMobile ? '29rem' : '20rem'"
             >
                 <VDatePicker
                     v-model="phaseQuestions3.startDate"
