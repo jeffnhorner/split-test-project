@@ -6,7 +6,7 @@
             Select the days and times you prefer to work *
         </span>
         <div
-            v-if="$mq !== 'xs' && $mq !== 'sm'"
+            v-if="!isMobile"
             v-bind:class="$style.availability"
         >
             <div v-bind:class="$style.timeOfday">
@@ -19,7 +19,7 @@
                 v-bind:headers="days"
                 v-bind:items="selections"
                 v-bind:mobile-breakpoint="414"
-                v-bind:disable-sort="$mq === 'xs' || $mq === 'sm'"
+                v-bind:disable-sort="isMobile"
                 hide-default-footer
             >
                 <template
@@ -28,7 +28,7 @@
                     <VSimpleCheckbox
                         v-model="item.Monday"
                         color="primary"
-                        v-on:input="setAvailability(item)"
+                        v-on:input="setAvailability('Monday')"
                     />
                 </template>
                 <template
@@ -37,7 +37,7 @@
                     <VSimpleCheckbox
                         v-model="item.Tuesday"
                         color="primary"
-                        v-on:input="setAvailability(item)"
+                        v-on:input="setAvailability('Tuesday')"
                     />
                 </template>
                 <template
@@ -46,7 +46,7 @@
                     <VSimpleCheckbox
                         v-model="item.Wednesday"
                         color="primary"
-                        v-on:input="setAvailability(item)"
+                        v-on:input="setAvailability('Wednesday')"
                     />
                 </template>
                 <template
@@ -55,7 +55,7 @@
                     <VSimpleCheckbox
                         v-model="item.Thursday"
                         color="primary"
-                        v-on:input="setAvailability(item)"
+                        v-on:input="setAvailability('Thursday')"
                     />
                 </template>
                 <template
@@ -64,7 +64,7 @@
                     <VSimpleCheckbox
                         v-model="item.Friday"
                         color="primary"
-                        v-on:input="setAvailability(item)"
+                        v-on:input="setAvailability('Friday')"
                     />
                 </template>
                 <template
@@ -73,7 +73,7 @@
                     <VSimpleCheckbox
                         v-model="item.Saturday"
                         color="primary"
-                        v-on:input="setAvailability(item)"
+                        v-on:input="setAvailability('Saturday')"
                     />
                 </template>
                 <template
@@ -82,7 +82,7 @@
                     <VSimpleCheckbox
                         v-model="item.Sunday"
                         color="primary"
-                        v-on:input="setAvailability(item)"
+                        v-on:input="setAvailability('Sunday')"
                     />
                 </template>
             </VDataTable>
@@ -142,7 +142,7 @@
             >
                 <VDatePicker
                     v-model="phaseQuestions3.startDate"
-                    v-bind:landscape="$mq !== 'xs' && $mq !== 'sm'"
+                    v-bind:landscape="!isMobile"
                     scrollable
                     reactive
                 >
@@ -169,6 +169,11 @@
     import { required, minLength } from 'vuelidate/lib/validators';
 
     export default {
+        /**
+         * Initial Vue component reactive data.
+         *
+         * @link https://vuejs.org/v2/api/#Options-Data
+         */
         data: () => ({
             phaseQuestions3: {
                 startDate: null,
@@ -283,6 +288,22 @@
             ],
         }),
 
+        /**
+         * Vue computed properties are cached, and only re-computed on reactive dependency changes.
+         *
+         * @link https://vuejs.org/v2/api/#computed
+         */
+        computed: {
+            isMobile () {
+                return this.$mq === 'xs' || this.$mq === 'sm'
+            },
+        },
+
+        /**
+         * Vue life-cycle hook called synchronously after the Vue instance is created.
+         *
+         * @link https://vuejs.org/v2/api/#created
+         */
         async created () {
             // Dynamically import the validationRule utility function
             const { default: validationRule } = await import('~/utilities/validationRule.js');
@@ -296,12 +317,15 @@
             this.$store.commit('setCurrentFormPhaseValidationObject', this.$v);
 
             // Since Vuetify's VWindow component requires the child VWindowItem components to
-            // use vue's v-show directive so you don't lose data when you go forward or backward
-            // between appliation phases, we must watch the global applicationPhase value and only
+            // use vue's v-show directive (so you don't lose data when you go forward or backward
+            // between appliation phases), we must watch the global applicationPhase value and only
             // update the global vuelidate object when the applicationPhase equals the appropriate
             // DriverApplicationStep component. (i.e. this single file component's name is
             // DriverApplicationStepThree, therefore, whenever the globalApplicatonPhase === 3,
-            // this update the global formValidation object with components vuelidate validations).
+            // this updates the global formValidation object with this component's vuelidate validations).
+            // This is required for when the user is navigating the application with the global next and back
+            // navigation buttons and we want to ensure they've filled out the required fields before
+            // going to the next step.
             this.$watch('$store.state.applicationPhase', () => {
                 // Set the global state's validationObject to the validations being defined in this
                 // component's vuelidate validation object below.
@@ -311,13 +335,18 @@
             });
         },
 
+        /**
+         * Non-cached Vue methods.
+         *
+         * @link https://vuejs.org/v2/api/#methods
+         */
         methods: {
             /**
              * Set's the User's selected availability.
              *
-             * @param  {Object}  Days available for the user to choose from.
+             * @param  {String}  day The day that the user is selecting availability for.
              */
-            async setAvailability (days) {
+            async setAvailability (day) {
                 // Since Vuetify data tables don't include a vertical header, in order to build the
                 // selectedAvailability array, we need to go outside of Vue's reactivity & shadow DOM and
                 // use some good ole plain javascript.
@@ -326,7 +355,6 @@
                 const tableOptions = document.querySelectorAll('td i');
                 let timeOfDay = null;
                 let tableOptionIndex = null
-                let day = null;
 
                 // We need to use Vue's $nextTick helper to wait for the next DOM tick in order to
                 // see if any of the table options have been update with the .mdi-checkbox-mark class
@@ -334,52 +362,49 @@
                 // see https://vuejs.org/v2/api/#vm-nextTick
                 await this.$nextTick(() => {
                     tableOptions.forEach((option, index) => {
-                        // If the table option has the active class
-                        if (option.className.includes('mdi-checkbox-mark')) {
+                        // If the table option has the active class & doesn't have a unique identifier,
+                        // set the table option index the user just selected.
+                        if (option.className.includes('mdi-checkbox-mark') && !option.hasAttribute('identifier')) {
                             tableOptionIndex = index;
                         }
-
-                        // This essentially let's us know what time of the day the user is selecting.
-                        // The first table row is morning, second row is afternoon, and the third is
-                        // the evening.
-                        timeOfDay = tableOptionIndex <= 6
-                            ? 'Morning'
-                            : (tableOptionIndex > 6 || tableOptionIndex <= 12)
-                                ? 'Afternoon'
-                                : 'Evening'
                     });
+
+                    // This essentially let's us know what time of the day the user is selecting.
+                    // The first table row is morning, second row is afternoon, and the third is
+                    // the evening.
+                    timeOfDay = tableOptionIndex <= 6
+                        ? 'Morning'
+                        : tableOptionIndex > 6 && tableOptionIndex <= 13
+                            ? 'Afternoon'
+                            : 'Evening'
+
+                    // This will let us identify if we're trying to add any duplicated selected day/time to the
+                    // selectedAvailability array.
+                    const timeSlotAlreadyAdded = this.phaseQuestions3.selectedAvailability.find(selection => selection === day + timeOfDay);
+
+                    // As long as the time/day hasn't already been added & there's a day defined, push the selected
+                    // day/time into the selectedAvailability array.
+                    if (!timeSlotAlreadyAdded && (tableOptionIndex || tableOptionIndex === 0)) {
+                        this.phaseQuestions3.selectedAvailability.push(day + timeOfDay);
+                        // We'll sent a unique attribute on the table option's html element so we can remove it
+                        // on a later check.
+                        tableOptions[tableOptionIndex].setAttribute('identifier', day + timeOfDay);
+                        // We must reset the day after the selected day/time is pushed into the array.
+                    } else {
+                        // Here we'll search to see if any of the table options have the identifier without the active
+                        // class given to the table options when they are checked. If they have the identifier without
+                        // the active class, we know we need to remove it from the selectedAvailability array.
+                        tableOptions.forEach(option => {
+                            if (option.hasAttribute('identifier') && !option.className.includes('mdi-checkbox-mark')) {
+                                const uncheckedInput = option.getAttribute('identifier');
+                                // Remove the unique identifier
+                                option.removeAttribute('identifier');
+
+                                this.phaseQuestions3.selectedAvailability = this.phaseQuestions3.selectedAvailability.filter(id => id !== uncheckedInput);
+                            }
+                        })
+                    }
                 });
-
-                // Look at the object we're passing into this method and see if any of the days are set to
-                // true. Since there's a watcher (v-model vue directive) on all of the VSimpleCheckbox components,
-                // we will know which day the user is selecting.
-                day = (Object.entries(days).find(day => day[1]) || [])[0];
-
-                 // This will let us identify if we're trying to add any duplicated selected day/time to the
-                 // selectedAvailability array.
-                const timeSlotAlreadyAdded = this.phaseQuestions3.selectedAvailability.find(id => id === day + timeOfDay);
-
-                // As long as the time/day hasn't already been added & there's a day defined, push the selected
-                // day/time into the selectedAvailability array.
-                if (!timeSlotAlreadyAdded && day !== undefined) {
-                    this.phaseQuestions3.selectedAvailability.push(day + timeOfDay);
-                    // We'll sent a unique attribute on the table option's html element so we can remove it
-                    // on a later check.
-                    tableOptions[tableOptionIndex].setAttribute('identifier', day + timeOfDay);
-                    // We must reset the day after the selected day/time is pushed into the array.
-                    day = null;
-                } else {
-                    // Here we'll search to see if any of the table options have the identifier without the active
-                    // class given to the table options when they are checked. If they have the identifier without
-                    // the active class, we know we need to remove it from the selectedAvailability array.
-                    tableOptions.forEach(option => {
-                        if (option.hasAttribute('identifier') && !option.className.includes('mdi-checkbox-mark')) {
-                            const uncheckedInput = option.getAttribute('identifier');
-
-                            this.phaseQuestions3.selectedAvailability = this.phaseQuestions3.selectedAvailability.filter(id => id !== uncheckedInput);
-                        }
-                    })
-                }
             },
 
             /**
@@ -405,6 +430,12 @@
             }
         },
 
+        /**
+         * Vuelidate validation object for validating explicit form fields.
+         *
+         * @link https://vuelidate.js.org/#getting-started
+         * @link https://vuelidate.js.org/#validators
+         */
         validations: {
             phaseQuestions3: {
                 experience: {

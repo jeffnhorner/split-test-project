@@ -56,6 +56,11 @@
     import { required } from 'vuelidate/lib/validators';
 
     export default {
+        /**
+         * Initial Vue component reactive data.
+         *
+         * @link https://vuejs.org/v2/api/#Options-Data
+         */
         data: () => ({
             isReady: false,
             phaseQuestions2: {
@@ -67,6 +72,11 @@
             }
         }),
 
+        /**
+         * Vue life-cycle hook called synchronously after the Vue instance is created.
+         *
+         * @link https://vuejs.org/v2/api/#created
+         */
         async created () {
             // Dynamically import the validationRule utility function
             const { default: validationRule } = await import('~/utilities/validationRule.js');
@@ -79,12 +89,16 @@
             // within all components.
             this.$store.commit('setCurrentFormPhaseValidationObject', this.$v);
 
-            // Since Vuetify's VWindow component requires the child VWindowItem components to use vue's v-show directive
-            // so you don't lose data when you go forward or backward between appliation phases, we must watch the global
-            // applicationPhase value and only update the global vuelidate object when the applicationPhase equals the
-            // appopriate DriverApplicationStep component. (i.e. this single file component's name is DriverApplicationStepTwo,
-            // therefore, whenever the globalApplicatonPhase === 2, update the global formValidation object with this
-            // components vuelidate validations).
+            // Since Vuetify's VWindow component requires the child VWindowItem components to
+            // use vue's v-show directive (so you don't lose data when you go forward or backward
+            // between appliation phases), we must watch the global applicationPhase value and only
+            // update the global vuelidate object when the applicationPhase equals the appropriate
+            // DriverApplicationStep component. (i.e. this single file component's name is
+            // DriverApplicationStepThree, therefore, whenever the globalApplicatonPhase === 3,
+            // this updates the global formValidation object with this component's vuelidate validations).
+            // This is required for when the user is navigating the application with the global next and back
+            // navigation buttons and we want to ensure they've filled out the required fields before
+            // going to the next step.
             this.$watch('$store.state.applicationPhase', () => {
                 // Set the global state's validationObject to the validations being defined in this component's
                 // vuelidate validation object below.
@@ -94,6 +108,12 @@
             });
         },
 
+        /**
+         * Vuelidate validation object for validating explicit form fields.
+         *
+         * @link https://vuelidate.js.org/#getting-started
+         * @link https://vuelidate.js.org/#validators
+         */
         validations: {
             phaseQuestions2: {
                 question1: {
