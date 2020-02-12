@@ -1,14 +1,37 @@
-# Default starter for Gridsome
+# Take Split's New Driver Application
 
-This is the project you get when you run `gridsome create new-project`.
+## Built primarily with love but also Vue.js
 
-### 1. Install Gridsome CLI tool if you don't have
+In order to get this project on your local machine, please fork the repository and then type the following command: `git clone REPO_URL` into a directory on your computer.
+<br></br>
+### 1. Install Dependencies
 
-`npm install --global @gridsome/cli`
+Once you've successfully cloned the repository, within the directory where you've cloned the project, please run: `yarn install` to install necessary dependencies.
+<br></br>
+### 2. Local Development
 
-### 2. Create a Gridsome project
+Now that the dependenices are installed, feel free to run `yarn develop` within the same directory. This will build a local  development server with hot reloading. The default URL is `http://localhost:8080`.
+<br></br>
+### 2. Technologies Used
 
-1. `gridsome create my-gridsome-site` to install default starter
-2. `cd my-gridsome-site` to open the folder
-3. `gridsome develop` to start a local dev server at `http://localhost:8080`
-4. Happy coding 🎉🙌
+**CSS Modules** - Replaces every local-scoped identifier (i.e. className) with a global unique name. https://github.com/css-modules/css-modules \
+**Gridsome** - Lightweight, fast, and static (or SSR) Vue.js framework. https://gridsome.org/ \
+**Netlify** - For incredible CI/CD project hosting https://www.netlify.com/ \
+**Vuex** - State management for Vue.js. https://vuex.vuejs.org/ \
+**Vuelidate** - Simple and lightweight model-based validation for Vue.js. https://vuelidate.js.org/ \
+**Vuetify** - Vue UI library with reusable (Material Design) Vue.js. components https://vuetifyjs.com/ \
+**Vue MQ** - Gives you the ability to define media queries with Javascript. https://github.com/AlexandreBonaventure/vue-mq \
+**Webpack** - A static module bundler for modern Javascript. https://webpack.js.org/ \
+<br></br>
+### What You Can expect in this Application:
+- Entire UI built
+- Validation on All required (*) fields
+- Payload ready to be sent to backend API (see notes below on how to check the payload)
+<br></br>
+### A Final To Do:
+- The File Uploader I want to use took me a bit longer to configure. It's currently in a local branch since I wasn't able to finish it up, however, here is the tech that will be used for that:
+  - File Saver: [https://www.npmjs.com/package/file-saver]
+  - Vue File Pond: [https://github.com/pqina/vue-filepond]
+<br></br>
+### View the Payload
+In order to view the payload that will be ready for the backend, on the last step where the user is told they've completed the driver application, after you click the submit button, please open up the console and view the Object that is printed out. Keep in mind, if there is an existing API in place, we can update the key names, update the data type we're sending, or, we could even send the data at each phase of the application (not sure we want to, but, we can).
