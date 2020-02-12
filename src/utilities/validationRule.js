@@ -5,8 +5,10 @@
  * @return  {Array}      If applicable, it will display an array with the tailored validation
  *                       error messsage.
  *
- * @param   fieldName    The form field name we're validating
- * @param   errorMessage What error message to dispaly in the event the field isn't validated.
+ * @param   fieldName       The form field name we're validating
+ * @param   fieldName       The fieldName we're trying to validate within the validationGroup object
+ * @param   errorMessage    What error message to dispaly in the event the field isn't validated.
+ * @param   validationGroup The vuelidate validationGroup.
  */
 export default function validationRule (validationObject, fieldName, errorMessage, validationGroup = null) {
     if (validationGroup) {

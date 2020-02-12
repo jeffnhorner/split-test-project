@@ -32,7 +32,7 @@
                     v-bind:class="$style.question"
                     v-model="phaseQuestions1.phoneNumber"
                     v-on:input="$v.phaseQuestions1.phoneNumber.$touch()"
-                    v-bind:rules="validationRule($v, 'phoneNumber', 'Please enter a valid phone number. Format: 111-222-3333', 'phaseQuestions1')"
+                    v-bind:rules="validationRule($v, 'phoneNumber', 'Please enter a valid phone number. Format: 1112223333', 'phaseQuestions1')"
                     placeholder="Phone Number *"
                 />
             </span>
@@ -50,11 +50,11 @@
                     v-model="$store.state.dateOfBirthModalIsOpen"
                     v-bind:return-value.sync="phaseQuestions1.date"
                     persistent
-                    width="29rem"
+                    v-bind:width="!isMobile ? '29rem' : '20rem'"
                 >
                     <VDatePicker
                         v-model="phaseQuestions1.date"
-                        v-bind:landscape="$mq !== 'xs' && $mq !== 'sm'"
+                        v-bind:landscape="!isMobile"
                         scrollable
                         reactive
                     >
@@ -79,9 +79,14 @@
 </template>
 
 <script>
-    import { required, email, minLength } from 'vuelidate/lib/validators';
+    import { required, email, minLength, maxLength, numeric } from 'vuelidate/lib/validators';
 
     export default {
+        /**
+         * Initial Vue component reactive data.
+         *
+         * @link https://vuejs.org/v2/api/#Options-Data
+         */
         data: () => ({
             phaseQuestions1: {
                 fname: '',
@@ -93,6 +98,11 @@
             isReady: false,
         }),
 
+        /**
+         * Vue life-cycle hook called synchronously after the Vue instance is created.
+         *
+         * @link https://vuejs.org/v2/api/#created
+         */
         async created () {
             // Dynamically import the validationRule utility function
             const { default: validationRule } = await import('~/utilities/validationRule.js');
@@ -105,12 +115,16 @@
             // within all components.
             this.$store.commit('setCurrentFormPhaseValidationObject', this.$v);
 
-            // Since Vuetify's VWindow component requires the child VWindowItem components to use vue's v-show directive
-            // so you don't lose data when you go forward or backward between appliation phases, we must watch the global
-            // applicationPhase value and only update the global vuelidate object when the applicationPhase equals the
-            // appopriate DriverApplicationStep component. (i.e. this single file component's name is DriverApplicationStepOne,
-            // therefore, whenever the globalApplicatonPhase === 1, update the global formValidation object with this
-            // components vuelidate validations).
+            // Since Vuetify's VWindow component requires the child VWindowItem components to
+            // use vue's v-show directive (so you don't lose data when you go forward or backward
+            // between appliation phases), we must watch the global applicationPhase value and only
+            // update the global vuelidate object when the applicationPhase equals the appropriate
+            // DriverApplicationStep component. (i.e. this single file component's name is
+            // DriverApplicationStepThree, therefore, whenever the globalApplicatonPhase === 3,
+            // this updates the global formValidation object with this component's vuelidate validations).
+            // This is required for when the user is navigating the application with the global next and back
+            // navigation buttons and we want to ensure they've filled out the required fields before
+            // going to the next step.
             this.$watch('$store.state.applicationPhase', () => {
                 // Set the global state's validationObject to the validations being defined in this component's
                 // vuelidate validation object below.
@@ -120,6 +134,23 @@
             });
         },
 
+        /**
+         * Vue computed properties are cached, and only re-computed on reactive dependency changes.
+         *
+         * @link https://vuejs.org/v2/api/#computed
+         */
+        computed: {
+            isMobile () {
+                return this.$mq === 'xs' || this.$mq === 'sm';
+            }
+        },
+
+        /**
+         * Vuelidate validation object for validating explicit form fields.
+         *
+         * @link https://vuelidate.js.org/#getting-started
+         * @link https://vuelidate.js.org/#validators
+         */
         validations: {
             phaseQuestions1: {
                 fname: {
@@ -134,7 +165,9 @@
                 },
                 phoneNumber: {
                     required,
-                    minLength: minLength(12),
+                    numeric,
+                    minLength: minLength(10),
+                    maxLength: maxLength(10),
                 },
                 date: {
                     required,

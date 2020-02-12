@@ -71,7 +71,7 @@
                             Back
                         </VBtn>
                         <VProgressLinear
-                            v-show="$mq !== 'xs' && $mq !== 'sm'"
+                            v-show="!isMobile"
                             v-bind:class="[
                                 $style.progressBar,
                                 (applicationPhase > 3 ? 'white--text' : null),
@@ -123,6 +123,11 @@
 
 <script>
     export default {
+        /**
+         * Self contained reusable Vue single-file components.
+         *
+         * @link https://vuejs.org/v2/guide/single-file-components.html
+         */
         components: {
             DriverApplicationStepOne: () => import('~/components/DriverApplicationStepOne'),
             DriverApplicationStepTwo: () => import('~/components/DriverApplicationStepTwo'),
@@ -134,10 +139,20 @@
             JobDescriptionModal: () => import('~/components/JobDescriptionModal'),
         },
 
-        data: vm => ({
+        /**
+         * Initial Vue component reactive data.
+         *
+         * @link https://vuejs.org/v2/api/#Options-Data
+         */
+        data: () => ({
             progressionPercentage: 0,
         }),
 
+        /**
+         * Vue computed properties are cached, and only re-computed on reactive dependency changes.
+         *
+         * @link https://vuejs.org/v2/api/#computed
+         */
         computed: {
             currentTitle () {
                 switch (this.applicationPhase) {
@@ -152,16 +167,35 @@
                 return this.$store.state.applicationPhase;
             },
 
+            applicationPhaseData () {
+                return this.$store.state.formValidation;
+            },
+
             hasInvalidatedFormPhase () {
                 return this.$store.state.hasInvalidatedFormPhase;
+            },
+
+            isMobile () {
+                return this.$mq === 'xs' || this.$mq === 'sm';
             }
         },
 
+        /**
+         * Non-cached Vue methods.
+         *
+         * @link https://vuejs.org/v2/api/#methods
+         */
         methods: {
+            /**
+             * The handles the application navigation
+             *
+             * @param {Boolean} nextStep Denotes whether the user is trying to move forward to
+             *                           the next step or backward to the previous phase.
+             */
             handleFormProgression (nextStep = true) {
                 // If we're trying to go to the next application phase & the current form phase
                 // validation is completed properly without validatione errors.
-                if (nextStep && !this.$store.state.formValidation.validationGroup.$invalid) {
+                if (nextStep  && !this.applicationPhaseData.validationGroup.$invalid) {
                     // Update the application window to the next step.
                     this.$store.commit('updateApplicationPhase');
                     // Update the progression percentage for the user to view.
@@ -169,10 +203,16 @@
                     // Ensure the global state form validation state to validated.
                     this.$store.commit('setFormPhaseValidationStatus', false);
 
+                    // Dispatch the vuex action for the application phase that was just completed
+                    this.$store.dispatch('driverApplicationPayload', {
+                        phase: this.applicationPhase - 1,
+                        data: this.applicationPhaseData,
+                    });
+
                     return;
                 // Otherwise, as long as we're not on the first application phase, go back to the previous
                 // application phase.
-                } else if (!nextStep && this.$store.state.applicationPhase !== 0) {
+                } else if (!nextStep && this.applicationPhase !== 0) {
                     this.$store.commit('setFormPhaseValidationStatus', false);
                     // If there's an validation error on the curren tapplication phase and the user tries
                     // to go back, we can remove the validation error since we know in order to move forward

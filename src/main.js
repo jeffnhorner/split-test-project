@@ -44,6 +44,7 @@ export default function (Vue, { router, head, isClient, appOptions }) {
             applicationPhase: 1,
             formValidation: {},
             hasInvalidatedFormPhase: false,
+            driverApplicationPayload: {},
         },
 
         mutations: {
@@ -72,7 +73,24 @@ export default function (Vue, { router, head, isClient, appOptions }) {
             setFormPhaseValidationStatus (state, status) {
                 state.hasInvalidatedFormPhase = status;
             },
+
+            setPayload (state, driverApplicationPayload) {
+                state.driverApplicationPayload = Object.assign(state.driverApplicationPayload, driverApplicationPayload);
+            }
         },
+
+        actions: {
+            driverApplicationPayload ({ commit }, {
+                phase,
+                data,
+            }) {
+                const validatedData = {};
+
+                validatedData[`phase${phase}`] = (data[`phaseQuestions${phase}`] || {}).$model;
+
+                commit('setPayload', validatedData);
+            },
+        }
     });
 
     Vue.component('Layout', DefaultLayout);
