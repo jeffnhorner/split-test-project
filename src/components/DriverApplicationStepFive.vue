@@ -70,7 +70,7 @@
          */
         methods: {
             /**
-             * Submitsthe application data payload.
+             * Submits the driver application's data payload.
              *
              */
             submitApplication () {

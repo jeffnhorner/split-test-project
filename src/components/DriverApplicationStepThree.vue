@@ -431,7 +431,7 @@
         },
 
         /**
-         * Vuelidate validation object for validating explicit form fields.
+         * Vuelidate validation object for explicitly validating form fields.
          *
          * @link https://vuelidate.js.org/#getting-started
          * @link https://vuelidate.js.org/#validators
