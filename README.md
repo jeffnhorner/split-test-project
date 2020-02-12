@@ -4,15 +4,19 @@
 
 In order to get this project on your local machine, please fork the repository and then type the following command: `git clone REPO_URL` into a directory on your computer.
 <br></br>
-### 1. Install Dependencies
+### Install Dependencies
 
 Once you've successfully cloned the repository, within the directory where you've cloned the project, please run: `yarn install` to install necessary dependencies.
 <br></br>
-### 2. Local Development
+### Local Development
 
 Now that the dependenices are installed, feel free to run `yarn develop` within the same directory. This will build a local  development server with hot reloading. The default URL is `http://localhost:8080`.
 <br></br>
-### 2. Technologies Used
+### Live Link
+
+Hosted by Netlify: https://takesplit-become-a-driver.netlify.com/
+<br></br>
+### Technologies Used
 
 **CSS Modules** - Replaces every local-scoped identifier (i.e. className) with a global unique name. https://github.com/css-modules/css-modules \
 **Gridsome** - Lightweight, fast, and static (or SSR) Vue.js framework. https://gridsome.org/ \
