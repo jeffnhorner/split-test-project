@@ -2,7 +2,7 @@
     <div v-bind:class="$style.completedApplication">
         <g-image
             v-bind:class="$style.completedLogo"
-            src="https://fountain-uploads.s3-us-west-1.amazonaws.com/uploads/accounts/brand/square_logo/3883/Variation_1.png?X-Amz-Expires=604800&X-Amz-Date=20200211T150457Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJQOABKUE66R2SJPQ/20200211/us-west-1/s3/aws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=906756741fb6851fdba3bfc8e3d01cc7f0b6a317298d183552bcb8a271b1a6a0"
+            src="https://fountain-uploads.s3-us-west-1.amazonaws.com/uploads/accounts/brand/square_logo/3883/Variation_1.png?X-Amz-Expires=604800&X-Amz-Date=20200212T160631Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJQOABKUE66R2SJPQ/20200212/us-west-1/s3/aws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=eda96649914c93514110960429ad7ff6b5da4daabcafe57fc7ee86ddf92f275a"
         />
         <h3 v-bind:class="$style.messageHeadline">You've successfully
             <span v-if="!hasBeenSubmitted || isSubmitting">filled out</span>

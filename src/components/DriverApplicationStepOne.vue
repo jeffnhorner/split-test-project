@@ -39,21 +39,21 @@
             <span v-bind:class="$style.singleQuestionGroup">
                 <VTextField
                     v-bind:class="$style.question"
-                    v-model="phaseQuestions1.date"
-                    v-on:input="$v.phaseQuestions1.date.$touch()"
-                    v-bind:rules="validationRule($v, 'date', 'You must select a date', 'phaseQuestions1')"
+                    v-model="phaseQuestions1.dateOfBirth"
+                    v-on:input="$v.phaseQuestions1.dateOfBirth.$touch()"
+                    v-bind:rules="validationRule($v, 'dateOfBirth', 'You must select a date', 'phaseQuestions1')"
                     placeholder="What is Your Date of Birth? *"
                     v-on:click="$store.commit('setDateOfBirthModalState', true)"
                 />
                 <VDialog
                     ref="dateOfBirthModal"
                     v-model="$store.state.dateOfBirthModalIsOpen"
-                    v-bind:return-value.sync="phaseQuestions1.date"
+                    v-bind:return-value.sync="phaseQuestions1.dateOfBirth"
                     persistent
                     v-bind:width="!isMobile ? '29rem' : '20rem'"
                 >
                     <VDatePicker
-                        v-model="phaseQuestions1.date"
+                        v-model="phaseQuestions1.dateOfBirth"
                         v-bind:landscape="!isMobile"
                         scrollable
                         reactive
@@ -67,7 +67,7 @@
                         </VBtn>
                         <VBtn
                             text color="primary"
-                            v-on:click="$refs.dateOfBirthModal.save(phaseQuestions1.date)"
+                            v-on:click="$refs.dateOfBirthModal.save(phaseQuestions1.dateOfBirth)"
                         >
                             OK
                         </VBtn>
@@ -93,7 +93,7 @@
                 lname: '',
                 email: '',
                 phoneNumber: '',
-                date: '',
+                dateOfBirth: '',
             },
             isReady: false,
         }),
@@ -169,7 +169,7 @@
                     minLength: minLength(10),
                     maxLength: maxLength(10),
                 },
-                date: {
+                dateOfBirth: {
                     required,
                 },
             },
