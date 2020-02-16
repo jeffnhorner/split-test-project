@@ -196,7 +196,6 @@
                 // If we're trying to go to the next application phase & the current form phase
                 // validation is completed properly without validatione errors.
                 if (nextStep && !this.applicationPhaseData.validationGroup.$invalid) {
-                // if (nextStep) {
                     // Update the application window to the next step.
                     this.$store.commit('updateApplicationPhase');
                     // Update the progression percentage for the user to view.

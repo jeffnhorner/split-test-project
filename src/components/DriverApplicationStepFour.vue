@@ -169,10 +169,6 @@
     import { required, minLength } from 'vuelidate/lib/validators';
     import firebase from 'firebase';
 
-    const customValidation = () => {
-        console.log('test');
-    };
-
     export default {
         /**
          * Initial Vue component reactive data.
@@ -239,10 +235,9 @@
             // Watch the reactive uploadValue property so we can reset it once a file has been uploaded.
             this.$watch('uploadValue', () => {
                 if (this.uploadValue === 100) {
+
+                    // Reset the uploading states
                     this.isUploadingImage = false;
-                    // this.$store.commit('setUploadedFiles', Object.keys(this.phaseQuestions4.imageData).pop());
-                    this.uploadedFiles.push(Object.keys(this.phaseQuestions4.imageData).pop());
-                    console.log(this.$store.state.uploadedFiles);
                     this.uploadValue = 0;
                 }
             });
@@ -273,12 +268,12 @@
                 // Assign phaseQuestions4.imageData to the first file in the files array list.
                 this.phaseQuestions4.imageData[fileName] = event.target.files[0];
 
-                console.log(fileName);
-
+                // If the fileName is the front driver's license, validate the upload flag
                 if (fileName === 'frontDriverLicense') {
                     this.phaseQuestions4.frontDriversLicenseUploaded = true;
                 }
 
+                // If the fileName is the back driver's license, validate the upload flag
                 if (fileName === 'backDriverLicense') {
                     this.phaseQuestions4.backDriversLicenseUploaded = true;
                 }
