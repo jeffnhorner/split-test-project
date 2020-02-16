@@ -2,12 +2,25 @@
 // The Client API can be used here. Learn more: gridsome.org/docs/client-api
 
 import DefaultLayout from '~/layouts/Default.vue'
+import firebase from 'firebase';
 import Vuelidate from 'vuelidate';
 import Vuetify from "vuetify";
 import VueMq from "vue-mq";
 import Vuex from "vuex";
 import "vuetify/dist/vuetify.min.css";
 import "@mdi/font/css/materialdesignicons.css";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyD98agn_UbXiqBmIiFqZZYF--ppc-3AThk",
+    authDomain: "take-split-driver-application.firebaseapp.com",
+    databaseURL: "https://take-split-driver-application.firebaseio.com",
+    projectId: "take-split-driver-application",
+    storageBucket: "take-split-driver-application.appspot.com",
+    messagingSenderId: "449282578723",
+    appId: "1:449282578723:web:3747770eac0633ac7bd496"
+};
+
+firebase.initializeApp(firebaseConfig);
 
 const vuetifyOptions = {
     theme: {
@@ -45,6 +58,7 @@ export default function (Vue, { router, head, isClient, appOptions }) {
             formValidation: {},
             hasInvalidatedFormPhase: false,
             driverApplicationPayload: {},
+            uploadedFiles: [],
         },
 
         mutations: {
@@ -76,7 +90,11 @@ export default function (Vue, { router, head, isClient, appOptions }) {
 
             setPayload (state, driverApplicationPayload) {
                 state.driverApplicationPayload = Object.assign(state.driverApplicationPayload, driverApplicationPayload);
-            }
+            },
+
+            setUploadedFiles (state, fileName) {
+                state.uploadedFiles.push(fileName);
+            },
         },
 
         actions: {
