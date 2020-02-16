@@ -167,7 +167,6 @@
 
 <script>
     import { required, minLength } from 'vuelidate/lib/validators';
-    import firebase from 'firebase';
 
     export default {
         /**
@@ -285,7 +284,10 @@
              * This will upload the selected file to the Firebase cloud db.
              *
              */
-            uploadSelectedFile () {
+            async uploadSelectedFile () {
+                // Dynamically import firebase where we need to use it.
+                const { default: firebase } = await import('firebase');
+
                 const file = Object.values(this.phaseQuestions4.imageData)[0];
 
                 const storageRef = firebase.storage().ref(`${file.name}`).put(file);

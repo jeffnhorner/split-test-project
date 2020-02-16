@@ -22,6 +22,10 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+import('firebase').then(firebase => {
+    firebase.initializeApp(firebaseConfig);
+});
+
 const vuetifyOptions = {
     theme: {
         themes: {
