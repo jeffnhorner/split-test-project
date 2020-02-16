@@ -166,7 +166,7 @@
 </template>
 
 <script>
-    import { required } from 'vuelidate/lib/validators';
+    import { required, minLength } from 'vuelidate/lib/validators';
     import firebase from 'firebase';
 
     const customValidation = () => {
@@ -182,6 +182,8 @@
         data: () => ({
             phaseQuestions4: {
                 imageData: {},
+                frontDriversLicenseUploaded: null,
+                backDriversLicenseUploaded: null,
             },
             isUploadingImage: false,
             selectedFile: '',
@@ -238,7 +240,8 @@
             this.$watch('uploadValue', () => {
                 if (this.uploadValue === 100) {
                     this.isUploadingImage = false;
-                    this.$store.commit('setUploadedFiles', Object.keys(this.phaseQuestions4.imageData).pop());
+                    // this.$store.commit('setUploadedFiles', Object.keys(this.phaseQuestions4.imageData).pop());
+                    this.uploadedFiles.push(Object.keys(this.phaseQuestions4.imageData).pop());
                     console.log(this.$store.state.uploadedFiles);
                     this.uploadValue = 0;
                 }
@@ -270,6 +273,16 @@
                 // Assign phaseQuestions4.imageData to the first file in the files array list.
                 this.phaseQuestions4.imageData[fileName] = event.target.files[0];
 
+                console.log(fileName);
+
+                if (fileName === 'frontDriverLicense') {
+                    this.phaseQuestions4.frontDriversLicenseUploaded = true;
+                }
+
+                if (fileName === 'backDriverLicense') {
+                    this.phaseQuestions4.backDriversLicenseUploaded = true;
+                }
+
                 this.selectedFile = fileName;
             },
 
@@ -286,6 +299,7 @@
                     this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     this.isUploadingImage = true;
                 }, error => {
+                    // Temporary
                     console.log(error.message);
                 });
             },
@@ -298,12 +312,13 @@
          * @link https://vuelidate.js.org/#validators
          */
         validations: {
-            phaseQuestions3: {
-                imageData: {
+            phaseQuestions4: {
+                frontDriversLicenseUploaded: {
                     required,
-                    customValidation,
                 },
-
+                backDriversLicenseUploaded: {
+                    required,
+                },
             },
             validationGroup: ['phaseQuestions4'],
         }
