@@ -20,7 +20,11 @@ const firebaseConfig = {
     appId: process.env.GRIDESOME_FIREBASE_APP_ID,
 };
 
-firebase.initializeApp(firebaseConfig);
+// Lazy load firebase to fix es6 moudle import issues with firebase & node
+// see https://github.com/firebase/firebase-js-sdk/issues/2222
+import('firebase').then(firebase => {
+    firebase.initializeApp(firebaseConfig);
+});
 
 const vuetifyOptions = {
     theme: {

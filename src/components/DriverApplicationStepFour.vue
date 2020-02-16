@@ -285,6 +285,7 @@
              *
              */
             async uploadSelectedFile () {
+                // Dynamically import firebase where we need to use it.
                 const { default: firebase } = await import('firebase');
 
                 const file = Object.values(this.phaseQuestions4.imageData)[0];
