@@ -12,7 +12,7 @@ import "@mdi/font/css/materialdesignicons.css";
 
 const firebaseConfig = {
     apiKey: "AIzaSyD98agn_UbXiqBmIiFqZZYF--ppc-3AThk",
-    authDomain: "take-split-driver-application.firebaseapp.com",
+    authDomain: null,
     databaseURL: "https://take-split-driver-application.firebaseio.com",
     projectId: "take-split-driver-application",
     storageBucket: "take-split-driver-application.appspot.com",
