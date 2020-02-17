@@ -1,5 +1,8 @@
 <template>
-    <div v-bind:class="$style.uploadContainer">
+    <div
+        v-if="isReady"
+        v-bind:class="$style.uploadContainer"
+    >
         <span v-bind:class="$style.caption">
             Split requires drivers to maintain an active motorcycle [M1] endorsement.
         </span>
@@ -180,6 +183,7 @@
                 frontDriversLicenseUploaded: null,
                 backDriversLicenseUploaded: null,
             },
+            isReady: false,
             isUploadingImage: false,
             selectedFile: '',
             uploadValue: 0,
@@ -236,6 +240,7 @@
                 if (this.uploadValue === 100) {
                     // Update the vuex uploadedFiles array state with the file type that was just uploaded.
                     this.$store.commit('setUploadedFiles', Object.keys(this.phaseQuestions4.imageData).pop());
+
                     // Reset the uploading states
                     this.isUploadingImage = false;
                     this.uploadValue = 0;
