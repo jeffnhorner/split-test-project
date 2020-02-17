@@ -20,7 +20,7 @@ Hosted by Netlify: https://takesplit-become-a-driver.netlify.com/
 
 **CSS Modules** - Replaces every local-scoped identifier (i.e. className) with a global unique name. https://github.com/css-modules/css-modules \
 **Gridsome** - Lightweight, fast, and static (or SSR) Vue.js framework. https://gridsome.org/ \
-**Firebase** - Firebase Firestone allows us to store and sync data between users and devices via the cloud https://firebase.google.com/products/firestore/ \
+**Firebase** - Firebase allows us to store and sync data between users and devices via the cloud https://firebase.google.com/ \
 **Netlify** - For incredible CI/CD project hosting https://www.netlify.com/ \
 **Vuex** - State management for Vue.js. https://vuex.vuejs.org/ \
 **Vuelidate** - Simple and lightweight model-based validation for Vue.js. https://vuelidate.js.org/ \
