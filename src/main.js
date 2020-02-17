@@ -19,7 +19,7 @@ const firebaseConfig = {
     appId: process.env.GRIDESOME_FIREBASE_APP_ID,
 };
 
-const firebase = require('firebase/app');
+const { default: firebase } = require('firebase/app');
 
 firebase.initializeApp(firebaseConfig);
 
