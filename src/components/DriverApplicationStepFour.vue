@@ -14,7 +14,7 @@
             />
             <div v-else>
                 <VBtn
-                    v-if="selectedFile !== 'frontDriverLicense' && !phaseQuestions4.imageData.frontDriverLicense && !uploadedFiles.includes('frontDriverLicense')"
+                    v-if="selectedFile !== 'frontDriverLicense' && !uploadedFiles.includes('frontDriverLicense')"
                     depressed
                     color="primary"
                     v-on:click="$refs.frontDriverLicenseFile.click()"
@@ -42,7 +42,7 @@
                         depressed
                         color="primary"
                         outlined
-                        v-on:click="phaseQuestions4.imageData = null"
+                        v-on:click="phaseQuestions4.frontDriversLicenseUploaded = null; selectedFile = ''"
                     >
                         Reset
                     </VBtn>
@@ -67,7 +67,7 @@
             />
             <div v-else>
                 <VBtn
-                    v-if="selectedFile !== 'backDriverLicense' && !phaseQuestions4.imageData.backDriverLicense && !uploadedFiles.includes('backDriverLicense')"
+                    v-if="selectedFile !== 'backDriverLicense' && !uploadedFiles.includes('backDriverLicense')"
                     depressed
                     color="primary"
                     v-on:click="$refs.backDriverLicenseFile.click()"
@@ -95,7 +95,7 @@
                         depressed
                         color="primary"
                         outlined
-                        v-on:click="phaseQuestions4.imageData = null"
+                        v-on:click="phaseQuestions4.backDriversLicenseUploaded = null; selectedFile = ''"
                     >
                         Reset
                     </VBtn>
@@ -148,7 +148,7 @@
                         depressed
                         color="primary"
                         outlined
-                        v-on:click="phaseQuestions4.imageData = null"
+                        v-on:click="phaseQuestions4.imageData = {}"
                     >
                         Reset
                     </VBtn>
