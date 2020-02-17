@@ -19,8 +19,11 @@ const firebaseConfig = {
     appId: process.env.GRIDESOME_FIREBASE_APP_ID,
 };
 
+// Must use require method to prevent firebase/netlify issue
+// see https://github.com/firebase/firebase-js-sdk/issues/2222
 const { default: firebase } = require('firebase/app');
 
+// Ensure only one firebase application is initizlied at a time.
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
