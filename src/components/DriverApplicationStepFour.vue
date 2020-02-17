@@ -288,10 +288,14 @@
                 // Dynamically import firebase where we need to use it.
                 const { default: firebase } = await import('firebase');
 
-                const file = Object.values(this.phaseQuestions4.imageData)[0];
+                const file = Object.values(this.phaseQuestions4.imageData).pop();
+
+                console.log(file);
 
                 // Writting or replacing the fileName to the firebase cloud storage
-                const storageRef = firebase.storage().ref(`${file.name}`).put(file);
+                let storageRef = firebase.storage().ref(`${file.name}`).put(file);
+
+                console.log(storageRef);
 
                 // Anytime the state of the current fileName we're trying to upload changes,
                 // let's calculate the uploadValue and once it reaces 100, we know the file
