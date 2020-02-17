@@ -21,7 +21,9 @@ const firebaseConfig = {
 
 const { default: firebase } = require('firebase/app');
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
 const vuetifyOptions = {
     theme: {
