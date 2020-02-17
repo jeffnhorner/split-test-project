@@ -234,7 +234,8 @@
             // Watch the reactive uploadValue property so we can reset it once a file has been uploaded.
             this.$watch('uploadValue', () => {
                 if (this.uploadValue === 100) {
-
+                    // Update the vuex uploadedFiles array state with the file type that was just uploaded.
+                    this.$store.commit('setUploadedFiles', Object.keys(this.phaseQuestions4.imageData).pop());
                     // Reset the uploading states
                     this.isUploadingImage = false;
                     this.uploadValue = 0;
