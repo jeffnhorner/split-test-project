@@ -386,10 +386,9 @@
                     // day/time into the selectedAvailability array.
                     if (!timeSlotAlreadyAdded && (tableOptionIndex || tableOptionIndex === 0)) {
                         this.phaseQuestions3.selectedAvailability.push(day + timeOfDay);
-                        // We'll sent a unique attribute on the table option's html element so we can remove it
+                        // We'll set a unique attribute on the table option's html element so we can remove it
                         // on a later check.
                         tableOptions[tableOptionIndex].setAttribute('identifier', day + timeOfDay);
-                        // We must reset the day after the selected day/time is pushed into the array.
                     } else {
                         // Here we'll search to see if any of the table options have the identifier without the active
                         // class given to the table options when they are checked. If they have the identifier without
@@ -400,6 +399,7 @@
                                 // Remove the unique identifier
                                 option.removeAttribute('identifier');
 
+                                // Remove the deselcted table option from the selectedAvailability array.
                                 this.phaseQuestions3.selectedAvailability = this.phaseQuestions3.selectedAvailability.filter(id => id !== uncheckedInput);
                             }
                         })
