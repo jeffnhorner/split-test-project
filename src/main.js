@@ -20,8 +20,6 @@ const firebaseConfig = {
     appId: process.env.GRIDESOME_FIREBASE_APP_ID,
 };
 
-firebase.initializeApp(firebaseConfig);
-
 import('firebase').then(firebase => {
     firebase.initializeApp(firebaseConfig);
 });
