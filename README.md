@@ -31,7 +31,7 @@ Hosted by Netlify: https://takesplit-become-a-driver.netlify.com/
 ### What You Can expect in this Application:
 - Entire UI built
 - Validation on All required (*) fields
-- Fully functional File Uploader with files being stored on a Firebase cloud-hosted, NoSQL db
+- Fully functional File Uploader with files being stored in a Firebase cloud-hosted storage
 - Payload ready to be sent to backend API (see notes below on how to check the payload)
 <br></br>
 ### View the Payload
