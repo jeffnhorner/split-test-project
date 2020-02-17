@@ -291,7 +291,7 @@
                 const file = Object.values(this.phaseQuestions4.imageData).pop();
 
                 // Writting or replacing the fileName to the firebase cloud storage
-                let storageRef = firebase.storage().ref(`${file.name}`).put(file);
+                const storageRef = firebase.storage().ref(`${file.name}`).put(file);
 
                 // Anytime the state of the current fileName we're trying to upload changes,
                 // let's calculate the uploadValue and once it reaces 100, we know the file
