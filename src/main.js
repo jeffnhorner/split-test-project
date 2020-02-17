@@ -2,7 +2,6 @@
 // The Client API can be used here. Learn more: gridsome.org/docs/client-api
 
 import DefaultLayout from '~/layouts/Default.vue'
-import firebase from 'firebase';
 import Vuelidate from 'vuelidate';
 import Vuetify from "vuetify";
 import VueMq from "vue-mq";
@@ -20,11 +19,11 @@ const firebaseConfig = {
     appId: process.env.GRIDESOME_FIREBASE_APP_ID,
 };
 
-firebase.initializeApp(firebaseConfig);
+const { default: firebase } = require('firebase/app');
 
-import('firebase').then(firebase => {
+if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
-});
+}
 
 const vuetifyOptions = {
     theme: {
