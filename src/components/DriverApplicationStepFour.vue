@@ -283,7 +283,6 @@
 
             /**
              * This will upload the selected file to the Firebase cloud db.
-             *
              */
             async uploadSelectedFile () {
                 // Dynamically import firebase where we need to use it.
@@ -291,8 +290,12 @@
 
                 const file = Object.values(this.phaseQuestions4.imageData)[0];
 
+                // Writting or replacing the fileName to the firebase cloud storage
                 const storageRef = firebase.storage().ref(`${file.name}`).put(file);
 
+                // Anytime the state of the current fileName we're trying to upload changes,
+                // let's calculate the uploadValue and once it reaces 100, we know the file
+                // has been uploaded.
                 storageRef.on('state_changed', snapshot => {
                     this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     this.isUploadingImage = true;
