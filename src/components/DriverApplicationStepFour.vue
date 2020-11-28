@@ -37,7 +37,7 @@
                     <VBtn
                         depressed
                         color="primary"
-                        v-on:click="uploadSelectedFile"
+                        v-on:click="uploadSelectedFile('frontDriverLicense')"
                     >
                         Upload
                     </VBtn>
@@ -90,7 +90,7 @@
                     <VBtn
                         depressed
                         color="primary"
-                        v-on:click="uploadSelectedFile"
+                        v-on:click="uploadSelectedFile('backDriverLicense')"
                     >
                         Upload
                     </VBtn>
@@ -143,7 +143,7 @@
                     <VBtn
                         depressed
                         color="primary"
-                        v-on:click="uploadSelectedFile"
+                        v-on:click="uploadSelectedFile('resume')"
                     >
                         Upload
                     </VBtn>
@@ -186,6 +186,8 @@
             isReady: false,
             isUploadingImage: false,
             selectedFile: '',
+            uploadFile: '',
+            uploadFileName: '',
             uploadValue: 0,
         }),
 
@@ -239,11 +241,12 @@
             this.$watch('uploadValue', () => {
                 if (this.uploadValue === 100) {
                     // Update the vuex uploadedFiles array state with the file type that was just uploaded.
-                    this.$store.commit('setUploadedFiles', Object.keys(this.phaseQuestions4.imageData).pop());
+                    this.$store.commit('setUploadedFiles', this.uploadFileName);
 
                     // Reset the uploading states
                     this.isUploadingImage = false;
                     this.uploadValue = 0;
+                    this.uploadFileName = '';
                 }
             });
         },
@@ -262,6 +265,8 @@
             instantiateFileUploader (ref) {
                 // Open the the native file browser
                 ref.click();
+                // make sure we reset the selected file
+                this.selectedFile = '';
             },
 
             /**
@@ -272,6 +277,8 @@
             updateSelectedFile (fileName) {
                 // Assign phaseQuestions4.imageData to the first file in the files array list.
                 this.phaseQuestions4.imageData[fileName] = event.target.files[0];
+                // make sure we reset the selected file
+                this.selectedFile = '';
 
                 // If the fileName is the front driver's license, validate the upload flag
                 if (fileName === 'frontDriverLicense') {
@@ -289,11 +296,11 @@
             /**
              * This will upload the selected file to the Firebase cloud db.
              */
-            async uploadSelectedFile () {
+            async uploadSelectedFile (fileName) {
                 // Dynamically import firebase where we need to use it.
                 const { default: firebase } = await import('firebase');
-
-                const file = Object.values(this.phaseQuestions4.imageData).pop();
+                const file = this.phaseQuestions4.imageData[fileName];
+                this.uploadFileName = fileName;
 
                 // Writting or replacing the fileName to the firebase cloud storage
                 const storageRef = firebase.storage().ref(`${file.name}`).put(file);
