@@ -45,7 +45,7 @@
                         depressed
                         color="primary"
                         outlined
-                        v-on:click="phaseQuestions4.frontDriversLicenseUploaded = null; selectedFile = ''"
+                        v-on:click="resetImageData('frontDriversLicenseUploaded')"
                     >
                         Reset
                     </VBtn>
@@ -98,7 +98,7 @@
                         depressed
                         color="primary"
                         outlined
-                        v-on:click="phaseQuestions4.backDriversLicenseUploaded = null; selectedFile = ''"
+                        v-on:click="resetImageData('backDriversLicenseUploaded')"
                     >
                         Reset
                     </VBtn>
@@ -123,7 +123,7 @@
             />
             <div v-else>
                 <VBtn
-                    v-if="selectedFile !== 'resume' && !phaseQuestions4.imageData.resume && !uploadedFiles.includes('resume')"
+                    v-if="selectedFile !== 'resume' && !uploadedFiles.includes('resume')"
                     depressed
                     color="primary"
                     v-on:click="$refs.resumeFile.click()"
@@ -151,7 +151,7 @@
                         depressed
                         color="primary"
                         outlined
-                        v-on:click="phaseQuestions4.imageData = {}"
+                        v-on:click="resetImageData('resume')"
                     >
                         Reset
                     </VBtn>
@@ -309,6 +309,24 @@
                     console.log(error.message);
                 });
             },
+
+            /**
+             * Resets the selected image data when the user chooses to reset their selection.
+             *
+             * @param   {String}  fileName  The file type of the uploaded file.
+             *
+             * @return  void
+             */
+            resetImageData (fileName) {
+                if (this.phaseQuestions4[fileName]) {
+                    // delete the file from the validation & imageData
+                    delete this.phaseQuestions4[fileName];
+                    delete this.phaseQuestions4.imageData[fileName];
+                }
+
+                // reset the selected file
+                this.selectedFile = ''
+            }
         },
 
         /**
